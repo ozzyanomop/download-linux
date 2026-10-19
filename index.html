@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux & BSD Downloads</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --card-hover: #1c2330;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-2: #3fb950;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: radial-gradient(circle at 20% 0%, #1a2332 0%, var(--bg) 50%);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 48px 20px 80px;
+  }
+  header { text-align: center; margin-bottom: 48px; }
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+  header p { color: var(--muted); font-size: 1.05rem; }
+  .grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transition: all .2s ease;
+  }
+  .card:hover {
+    background: var(--card-hover);
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+  .card h2 { font-size: 1.3rem; margin-bottom: 6px; }
+  .tag {
+    display: inline-block;
+    font-size: .75rem;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    width: fit-content;
+  }
+  .card p { color: var(--muted); font-size: .92rem; line-height: 1.5; flex-grow: 1; margin-bottom: 18px; }
+  .btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #0d1117;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: opacity .2s;
+  }
+  .btn:hover { opacity: .85; }
+  footer { text-align: center; color: var(--muted); margin-top: 60px; font-size: .85rem; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Linux & BSD Downloads</h1>
+    <p>Официальные ссылки на скачивание образов</p>
+  </header>
+
+  <main class="grid">
+    <article class="card">
+      <h2>Arch Linux</h2>
+      <span class="tag">Rolling release</span>
+      <p>Минималистичный дистрибутив, который собирается под себя. Arch Wiki — золотой стандарт документации.</p>
+      <a class="btn" href="https://archlinux.org/download/" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>Ubuntu</h2>
+      <span class="tag">Debian-based · LTS</span>
+      <p>Самый популярный дистрибутив для новичков и серверов. LTS-выпуски с поддержкой 5 лет.</p>
+      <a class="btn" href="https://ubuntu.com/download" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>Puppy Linux</h2>
+      <span class="tag">Ultra-lightweight</span>
+      <p>Крошечный дистрибутив, который целиком загружается в оперативную память. Идеален для старых ПК.</p>
+      <a class="btn" href="https://distro.ibiblio.org/puppylinux/" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>KISS Linux</h2>
+      <span class="tag">Minimal · Source-based</span>
+      <p>Максимально простой дистрибутив с минимальным набором зависимостей. Для тех, кто любит полный контроль.</p>
+      <a class="btn" href="https://github.com/kisslinux/repo/releases" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>Gentoo Linux</h2>
+      <span class="tag">Source-based · Portage</span>
+      <p>Собирается из исходников с максимальной оптимизацией под ваше железо. Гибкость и производительность.</p>
+      <a class="btn" href="https://www.gentoo.org/downloads/" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>Fedora</h2>
+      <span class="tag">RPM · Cutting edge</span>
+      <p>Актуальное ПО, отличная интеграция с GNOME и Wayland. Для тех, кто любит свежие технологии.</p>
+      <a class="btn" href="https://fedoraproject.org/workstation/download" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>Red Hat Enterprise Linux</h2>
+      <span class="tag">Enterprise · Commercial</span>
+      <p>Корпоративный дистрибутив с коммерческой поддержкой. Доступна пробная версия для разработчиков.</p>
+      <a class="btn" href="https://developers.redhat.com/products/rhel/download" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>Linux Mint</h2>
+      <span class="tag">User-friendly</span>
+      <p>Идеален для перехода с Windows. Знакомый интерфейс, всё работает «из коробки».</p>
+      <a class="btn" href="https://linuxmint.com/download.php" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>FreeBSD</h2>
+      <span class="tag">BSD · Server/Desktop</span>
+      <p>Мощная BSD-система с отличной сетевой производительностью и поддержкой ZFS.</p>
+      <a class="btn" href="https://www.freebsd.org/where/" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>OpenBSD</h2>
+      <span class="tag">BSD · Security-focused</span>
+      <p>Безопасность и чистота кода на первом месте. Славится своей простотой и надёжностью.</p>
+      <a class="btn" href="https://www.openbsd.org/faq/faq4.html#Download" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>NetBSD</h2>
+      <span class="tag">BSD · Portable</span>
+      <p>Портируется практически на любое железо — от тостеров до суперкомпьютеров.</p>
+      <a class="btn" href="https://www.netbsd.org/releases/" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>Void Linux</h2>
+      <span class="tag">Rolling · Runit</span>
+      <p>Независимый дистрибутив с менеджером пакетов XBPS и системой инициализации runit. Быстрый и лёгкий.</p>
+      <a class="btn" href="https://voidlinux.org/download/" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>Nobara</h2>
+      <span class="tag">Fedora-based · Gaming</span>
+      <p>Оптимизированная Fedora для гейминга, стриминга и создания контента. Множество патчей из коробки.</p>
+      <a class="btn" href="https://nobaraproject.org/download/" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>Pop!_OS</h2>
+      <span class="tag">Ubuntu-based · System76</span>
+      <p>Дистрибутив от System76 с собственным окружением COSMIC. Отлично подходит для разработки.</p>
+      <a class="btn" href="https://system76.com/pop/download/" target="_blank" rel="noopener">Скачать</a>
+    </article>
+
+    <article class="card">
+      <h2>CachyOS</h2>
+      <span class="tag">Arch-based · Performance</span>
+      <p>Оптимизированный Arch с патчами для производительности. Готов к играм и тяжёлым задачам.</p>
+      <a class="btn" href="https://cachyos.org/download/" target="_blank" rel="noopener">Скачать</a>
+    </article>
+  </main>
+
+  <footer>
+    Все ссылки ведут на официальные ресурсы. После скачивания проверяй контрольные суммы.
+  </footer>
+</body>
+</html>
