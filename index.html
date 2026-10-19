@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  /* СКРЫВАЕМ ЗНАЧОК NETLIFY */
+  /* Пытаемся скрыть значок Netlify (на всякий случай) */
   iframe[src*="netlify"], #netlify-badge, a[href*="netlify.com"], div[id^="netlify"] { display: none !important; }
 
   :root {
@@ -51,7 +51,7 @@
     background-attachment: fixed;
     color: var(--text);
     min-height: 100vh;
-    padding: 30px 16px 130px;
+    padding: 20px 16px 40px; /* Уменьшили нижний отступ, так как меню больше не внизу */
     transition: background 0.3s, color 0.3s;
     overflow-wrap: break-word;
   }
@@ -67,7 +67,7 @@
   .theme-toggle:hover { border-color: var(--border-hover); transform: scale(1.1); }
 
   /* ========== ЗАГОЛОВОК ========== */
-  header { text-align: center; margin-bottom: 30px; margin-top: 20px;}
+  header { text-align: center; margin-bottom: 24px; margin-top: 30px; }
   h1 {
     font-family: 'JetBrains Mono', monospace; font-size: clamp(1.6rem, 5vw, 2.8rem);
     font-weight: 600; letter-spacing: -1px; color: var(--text); margin-bottom: 10px;
@@ -77,23 +77,23 @@
   @keyframes blink { 50% { opacity: 0; } }
   header p { color: var(--muted); font-size: 0.95rem; }
 
-  /* ========== НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ ========== */
-  .bottom-nav {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    z-index: 100; width: calc(100% - 32px); max-width: 600px;
+  /* ========== ВЕРХНЯЯ ПАНЕЛЬ НАВИГАЦИИ (STICKY) ========== */
+  .main-nav {
+    position: sticky; top: 10px; z-index: 90;
+    margin: 0 auto 24px; width: 100%; max-width: 800px;
     background: var(--nav-bg); border: 1px solid var(--border);
-    border-radius: 50px; padding: 8px;
+    border-radius: 20px; padding: 6px;
     display: flex; justify-content: space-between; gap: 4px;
-    backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    backdrop-filter: blur(20px); box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   }
   .tab-btn {
-    flex: 1; padding: 12px 6px; font-family: inherit; font-size: 0.85rem;
+    flex: 1; padding: 10px 4px; font-family: inherit; font-size: 0.85rem;
     font-weight: 600; color: var(--muted); background: transparent; border: none;
-    border-radius: 40px; cursor: pointer; transition: all 0.2s ease;
+    border-radius: 14px; cursor: pointer; transition: all 0.2s ease;
     display: flex; flex-direction: column; align-items: center; gap: 4px;
   }
   .tab-btn .icon { font-size: 1.2rem; }
-  .tab-btn .text { font-size: 0.7rem; }
+  .tab-btn .text { font-size: 0.75rem; }
   .tab-btn:hover { color: var(--text); background: rgba(56, 225, 255, 0.08); }
   .tab-btn.active { color: #06101f; background: var(--grad); box-shadow: 0 4px 15px rgba(56, 225, 255, 0.3); }
 
@@ -200,11 +200,11 @@
   footer .wm { font-family: 'JetBrains Mono', monospace; color: var(--cyan); font-weight: 600; }
 
   @media (max-width: 480px) {
-    body { padding-top: 20px; padding-bottom: 120px; }
-    .bottom-nav { padding: 6px; width: calc(100% - 20px); bottom: 15px; }
+    header { margin-top: 10px; }
+    .main-nav { border-radius: 14px; padding: 4px; }
     .tab-btn { padding: 8px 2px; }
     .tab-btn .icon { font-size: 1.1rem; }
-    .tab-btn .text { font-size: 0.6rem; }
+    .tab-btn .text { font-size: 0.65rem; }
     .search-row { flex-wrap: wrap; }
     .search-input { min-width: 100%; }
   }
@@ -220,6 +220,14 @@
     <h1>~/ <span>Linux_Hub</span><span class="cursor"></span></h1>
     <p>Твой терминал в мир открытых систем</p>
   </header>
+
+  <!-- НАВИГАЦИЯ СВЕРХУ -->
+  <nav class="main-nav" role="tablist">
+    <button class="tab-btn active" data-tab="distros"><span class="icon">📦</span><span class="text">Дистро</span></button>
+    <button class="tab-btn" data-tab="docs"><span class="icon">📖</span><span class="text">Гайды</span></button>
+    <button class="tab-btn" data-tab="videos"><span class="icon">▶️</span><span class="text">Видео</span></button>
+    <button class="tab-btn" data-tab="news"><span class="icon">📰</span><span class="text">Новости</span></button>
+  </nav>
 
   <section id="tab-distros" class="tab-content active">
     <div class="controls">
@@ -250,7 +258,7 @@
     </div>
   </section>
 
-  <!-- ДОКУМЕНТАЦИЯ (Включая новые) -->
+  <!-- ДОКУМЕНТАЦИЯ -->
   <section id="tab-docs" class="tab-content">
     <div class="doc-grid">
       <article class="doc-card"><h3>Arch Linux</h3><span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span><p>Ручная установка, pacstrap, chroot. Официальное руководство Arch Wiki.</p><div class="btn-group"><a class="btn-outline" href="https://wiki.archlinux.org/title/Installation_guide" target="_blank">Гайд</a></div></article>
@@ -268,7 +276,7 @@
     </div>
   </section>
 
-  <!-- ВИДЕО (Включая новые) -->
+  <!-- ВИДЕО -->
   <section id="tab-videos" class="tab-content">
     <div class="filter-tags" style="justify-content:center; margin-bottom:20px;" id="videoFilters">
       <button class="filter-btn active" data-lang="all">Все видео</button>
@@ -276,28 +284,17 @@
       <button class="filter-btn" data-lang="en">🇬🇧 English</button>
     </div>
     <div class="video-grid" id="videoGrid">
-      <!-- Arch -->
       <article class="video-card" data-lang="ru"><div class="video-header"><h3>Как установить Arch Linux за 10 минут</h3><span class="lang-badge lang-ru">RU</span></div><p>Быстрый способ установки для новичков через archinstall.</p><div class="btn-group"><a class="btn-outline" href="https://rutube.ru/video/82a81ddcad6eb1749a640f116eb5915f/" target="_blank">Смотреть</a></div></article>
       <article class="video-card" data-lang="en"><div class="video-header"><h3>How To Install Arch Linux 2026</h3><span class="lang-badge lang-en">EN</span></div><p>Настройка BTRFS, PipeWire и KDE Plasma.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=gGMnYBN_wGo" target="_blank">Смотреть</a></div></article>
-      <!-- Gentoo -->
       <article class="video-card" data-lang="ru"><div class="video-header"><h3>Установка и настройка Gentoo</h3><span class="lang-badge lang-ru">RU</span></div><p>Детальная установка по Handbook со сборкой из исходников.</p><div class="btn-group"><a class="btn-outline" href="https://rutube.ru/plst/245922/" target="_blank">Смотреть</a></div></article>
-      <!-- Guix -->
       <article class="video-card" data-lang="en"><div class="video-header"><h3>Installing Guix as a GNU/Linux System</h3><span class="lang-badge lang-en">EN</span></div><p>Установка с графическим окружением и WiFi.</p><div class="btn-group"><a class="btn-outline" href="https://systemcrafters.net/craft-your-system-with-guix/full-system-install/" target="_blank">Смотреть</a></div></article>
-      <!-- Void -->
       <article class="video-card" data-lang="en"><div class="video-header"><h3>Void Install with ZFS 2025</h3><span class="lang-badge lang-en">EN</span></div><p>Настройка ZFS и загрузчика ZFSBootMenu.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=mhw2OzKveZQ" target="_blank">Смотреть</a></div></article>
-      <!-- FreeBSD -->
       <article class="video-card" data-lang="en"><div class="video-header"><h3>Walkthrough of FreeBSD 15.0</h3><span class="lang-badge lang-en">EN</span></div><p>Установщик bsdinstall и базовая настройка.</p><div class="btn-group"><a class="btn-outline" href="https://youtu.be/xR0zjPtix50" target="_blank">Смотреть</a></div></article>
-      <!-- Debian -->
       <article class="video-card" data-lang="ru"><div class="video-header"><h3>Установка Debian 12</h3><span class="lang-badge lang-ru">RU</span></div><p>Классическая установка стабильной системы.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=U_4D8V8Zq8U" target="_blank">Смотреть</a></div></article>
-      <!-- NixOS -->
       <article class="video-card" data-lang="en"><div class="video-header"><h3>NixOS Installation Guide</h3><span class="lang-badge lang-en">EN</span></div><p>Декларативная настройка системы через configuration.nix.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=Z8o8Jj6Vj6Q" target="_blank">Смотреть</a></div></article>
-      <!-- Alpine -->
       <article class="video-card" data-lang="en"><div class="video-header"><h3>Alpine Linux Installation</h3><span class="lang-badge lang-en">EN</span></div><p>Установка ультралёгкой системы через setup-alpine.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=5oFj9X0h5pE" target="_blank">Смотреть</a></div></article>
-      <!-- Kali -->
       <article class="video-card" data-lang="ru"><div class="video-header"><h3>Установка Kali Linux</h3><span class="lang-badge lang-ru">RU</span></div><p>Настройка системы для тестирования на проникновение.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=8fKkFk5Lq9k" target="_blank">Смотреть</a></div></article>
-      <!-- Tails -->
       <article class="video-card" data-lang="en"><div class="video-header"><h3>How to install Tails</h3><span class="lang-badge lang-en">EN</span></div><p>Запись на USB и настройка анонимной системы.</p><div class="btn-group"><a class="btn-outline" href="https://tails.net/install/index.en.html" target="_blank">Смотреть</a></div></article>
-      <!-- EndeavourOS -->
       <article class="video-card" data-lang="en"><div class="video-header"><h3>EndeavourOS Install</h3><span class="lang-badge lang-en">EN</span></div><p>Установка дружелюбного Arch через Calamares.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=2V3M7V4rP5c" target="_blank">Смотреть</a></div></article>
     </div>
   </section>
@@ -328,17 +325,10 @@
     </div>
   </div>
 
-  <div class="compare-bar" id="compareBar" style="position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:var(--nav-bg); border:1px solid var(--cyan); border-radius:20px; padding:12px 24px; display:none; align-items:center; gap:16px; z-index:99; box-shadow:0 10px 30px rgba(0,0,0,0.5); backdrop-filter:blur(12px);">
+  <div class="compare-bar" id="compareBar" style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--nav-bg); border:1px solid var(--cyan); border-radius:20px; padding:12px 24px; display:none; align-items:center; gap:16px; z-index:99; box-shadow:0 10px 30px rgba(0,0,0,0.5); backdrop-filter:blur(12px);">
     <span id="compareCount" style="font-size:0.9rem; font-weight:600; white-space:nowrap;">Выбрано: 0</span>
     <button class="btn-action" id="doCompareBtn" style="padding:8px 16px; border-radius:8px;">Сравнить</button>
   </div>
-
-  <nav class="bottom-nav" role="tablist">
-    <button class="tab-btn active" data-tab="distros"><span class="icon">📦</span><span class="text">Дистро</span></button>
-    <button class="tab-btn" data-tab="docs"><span class="icon">📖</span><span class="text">Гайды</span></button>
-    <button class="tab-btn" data-tab="videos"><span class="icon">▶️</span><span class="text">Видео</span></button>
-    <button class="tab-btn" data-tab="news"><span class="icon">📰</span><span class="text">Новости</span></button>
-  </nav>
 
   <footer>
     <p>Все ссылки ведут на официальные ресурсы.</p>
@@ -346,7 +336,7 @@
   </footer>
 
 <script>
-// БАЗА ДАННЫХ ДИСТРИБУТИВОВ (ПОЛНАЯ)
+// БАЗА ДАННЫХ ДИСТРИБУТИВОВ
 const distros = [
   { id: 'arch', name: 'Arch Linux', tags: ['source', 'rolling'], tagsText: 'Rolling release', desc: 'Минималистичный, собирается под себя. Arch Wiki — золотой стандарт.', reqs: { ram: '512 MB', disk: '2 GB' }, icon: 'archlinux', link: 'https://archlinux.org/download/', cmd: 'pacstrap /mnt base linux linux-firmware' },
   { id: 'ubuntu', name: 'Ubuntu', tags: ['newbie'], tagsText: 'LTS · Debian', desc: 'Самый популярный дистрибутив для новичков.', reqs: { ram: '4 GB', disk: '25 GB' }, icon: 'ubuntu', link: 'https://ubuntu.com/download', cmd: 'sudo apt update && sudo apt upgrade' },
@@ -373,7 +363,7 @@ const distros = [
 let compareList = [];
 let currentFilter = 'all';
 
-// --- ВОССТАНОВЛЕНИЕ НАСТРОЕК ИЗ LOCALSTORAGE ---
+// ВОССТАНОВЛЕНИЕ НАСТРОЕК
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light') {
   document.body.classList.replace('dark-theme', 'light-theme');
@@ -393,7 +383,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   }
 });
 
-// --- РЕНДЕР КАРТОЧЕК ---
+// РЕНДЕР КАРТОЧЕК
 function renderDistros() {
   const grid = document.getElementById('distroGrid');
   grid.innerHTML = '';
@@ -448,7 +438,7 @@ function renderDistros() {
   });
 }
 
-// --- ПОИСК И ФИЛЬТРЫ ---
+// ПОИСК И ФИЛЬТРЫ
 document.getElementById('searchInput').addEventListener('input', renderDistros);
 document.getElementById('filterTags').addEventListener('click', (e) => {
   if (e.target.classList.contains('tag-filter')) {
@@ -459,7 +449,7 @@ document.getElementById('filterTags').addEventListener('click', (e) => {
   }
 });
 
-// --- РАНДОМАЙЗЕР ---
+// РАНДОМАЙЗЕР
 document.getElementById('randomBtn').addEventListener('click', () => {
   document.getElementById('searchInput').value = '';
   currentFilter = 'all';
@@ -474,7 +464,7 @@ document.getElementById('randomBtn').addEventListener('click', () => {
   randomCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
 
-// --- СРАВНЕНИЕ ---
+// СРАВНЕНИЕ
 function updateCompareBar() {
   const bar = document.getElementById('compareBar');
   document.getElementById('compareCount').textContent = `Выбрано: ${compareList.length} / 3`;
@@ -502,7 +492,7 @@ document.getElementById('doCompareBtn').addEventListener('click', () => {
 
 document.getElementById('closeModal').addEventListener('click', () => document.getElementById('compareModal').classList.remove('show'));
 
-// --- ВКЛАДКИ С СОХРАНЕНИЕМ ---
+// ВКЛАДКИ
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -514,7 +504,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// --- ТЕМА С СОХРАНЕНИЕМ ---
+// ТЕМА
 const themeBtn = document.getElementById('themeBtn');
 themeBtn.addEventListener('click', () => {
   if (document.body.classList.contains('dark-theme')) {
@@ -528,13 +518,13 @@ themeBtn.addEventListener('click', () => {
   }
 });
 
-// --- ШПАРГАЛКА ---
+// ШПАРГАЛКА
 document.getElementById('cheatBtn').addEventListener('click', () => document.getElementById('cheatModal').classList.add('show'));
 window.copyText = function(text) {
   navigator.clipboard.writeText(text).then(() => alert('Скопировано!'));
 };
 
-// --- НОВОСТИ ---
+// НОВОСТИ
 async function fetchNews() {
   const container = document.getElementById('newsContainer');
   try {
@@ -561,7 +551,7 @@ async function fetchNews() {
   }
 }
 
-// --- ВИДЕО ФИЛЬТР ---
+// ВИДЕО ФИЛЬТР
 document.getElementById('videoFilters').addEventListener('click', (e) => {
   if (e.target.classList.contains('filter-btn')) {
     document.querySelectorAll('#videoFilters .filter-btn').forEach(b => b.classList.remove('active'));
@@ -574,7 +564,7 @@ document.getElementById('videoFilters').addEventListener('click', (e) => {
   }
 });
 
-// --- ИНИЦИАЛИЗАЦИЯ ---
+// ИНИЦИАЛИЗАЦИЯ
 document.addEventListener('DOMContentLoaded', () => {
   renderDistros();
   fetchNews();
