@@ -26,7 +26,6 @@
     --border-hover: rgba(64, 195, 255, 0.55);
     --text: #eef4ff;
     --muted: #8ca3c7;
-    --term-bg: rgba(6, 11, 24, 0.8);
   }
 
   .light-theme {
@@ -38,7 +37,6 @@
     --border-hover: rgba(59, 130, 246, 0.6);
     --text: #1e293b;
     --muted: #64748b;
-    --term-bg: rgba(255, 255, 255, 0.9);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,18 +47,19 @@
     background-attachment: fixed;
     color: var(--text);
     min-height: 100vh;
-    padding: 32px 16px 80px;
+    padding: 80px 16px 100px; /* Большой отступ сверху и снизу, чтобы ничего не налезало */
     transition: background 0.3s, color 0.3s;
+    overflow-wrap: break-word; /* Защита от наложения длинного текста */
   }
 
   /* ========== ШАПКА И ТЕРМИНАЛ ========== */
   .top-bar {
-    position: fixed; top: 18px; right: 18px; z-index: 100;
-    display: flex; gap: 10px;
+    position: fixed; top: 16px; right: 16px; z-index: 100;
+    display: flex; gap: 8px; align-items: center;
   }
   .watermark {
     font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.15em; text-transform: uppercase;
+    letter-spacing: 0.1em; text-transform: uppercase;
     color: var(--cyan); background: var(--card);
     border: 1px solid var(--border); padding: 6px 12px; border-radius: 999px;
     backdrop-filter: blur(12px); opacity: 0.85;
@@ -69,17 +68,18 @@
     background: var(--card); border: 1px solid var(--border); border-radius: 50%;
     width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
     cursor: pointer; font-size: 16px; backdrop-filter: blur(12px);
-    transition: all 0.2s; color: var(--text);
+    transition: all 0.2s; color: var(--text); flex-shrink: 0;
   }
   .theme-toggle:hover { border-color: var(--border-hover); transform: scale(1.1); }
 
-  header { text-align: center; margin-bottom: 30px; padding-top: 40px; }
+  header { text-align: center; margin-bottom: 30px; }
   h1 {
-    font-family: 'JetBrains Mono', monospace; font-size: clamp(1.8rem, 6vw, 2.8rem);
+    font-family: 'JetBrains Mono', monospace; font-size: clamp(1.6rem, 5vw, 2.8rem);
     font-weight: 600; letter-spacing: -1px; color: var(--text); margin-bottom: 10px;
+    line-height: 1.2;
   }
   h1 span { background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .cursor { display: inline-block; width: 12px; height: 1.2em; background: var(--cyan); vertical-align: bottom; animation: blink 1s step-end infinite; }
+  .cursor { display: inline-block; width: 10px; height: 1.1em; background: var(--cyan); vertical-align: bottom; animation: blink 1s step-end infinite; }
   @keyframes blink { 50% { opacity: 0; } }
   header p { color: var(--muted); font-size: 0.95rem; }
 
@@ -91,9 +91,9 @@
     backdrop-filter: blur(12px);
   }
   .tab-btn {
-    flex: 1; min-width: 90px; padding: 11px 14px; font-family: inherit; font-size: 0.88rem;
+    flex: 1; min-width: 80px; padding: 10px 8px; font-family: inherit; font-size: 0.85rem;
     font-weight: 600; color: var(--muted); background: transparent; border: none;
-    border-radius: 10px; cursor: pointer; transition: all 0.2s;
+    border-radius: 10px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
   }
   .tab-btn:hover { color: var(--text); background: rgba(56, 225, 255, 0.08); }
   .tab-btn.active { color: #06101f; background: var(--grad); box-shadow: 0 4px 18px rgba(56, 225, 255, 0.3); }
@@ -101,79 +101,80 @@
   .tab-content.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ========== ПАНЕЛЬ УПРАВЛЕНИЯ (ПОИСК/ФИЛЬТРЫ) ========== */
-  .controls {
-    max-width: 1200px; margin: 0 auto 24px; display: flex; flex-direction: column; gap: 12px;
-  }
+  /* ========== ПАНЕЛЬ УПРАВЛЕНИЯ ========== */
+  .controls { max-width: 1200px; margin: 0 auto 24px; display: flex; flex-direction: column; gap: 12px; }
   .search-row { display: flex; gap: 10px; }
   .search-input {
     flex: 1; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border);
-    background: var(--card); color: var(--text); font-family: inherit; font-size: 0.95rem;
+    background: var(--card); color: var(--text); font-family: inherit; font-size: 0.9rem;
     outline: none; backdrop-filter: blur(12px); transition: border 0.2s;
   }
   .search-input:focus { border-color: var(--cyan); }
   .btn-random {
     background: var(--grad); color: #06101f; border: none; padding: 0 16px;
     border-radius: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-    display: flex; align-items: center; gap: 6px; font-size: 0.9rem; transition: transform 0.2s;
+    display: flex; align-items: center; gap: 6px; font-size: 0.85rem; transition: transform 0.2s;
+    white-space: nowrap;
   }
   .btn-random:active { transform: scale(0.95); }
   
   .filter-tags { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
   .filter-tags::-webkit-scrollbar { display: none; }
-  .tag-filter {
+  .tag-filter, .filter-btn {
     padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
     background: transparent; border: 1px solid var(--border); color: var(--muted);
     cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: inherit;
   }
-  .tag-filter:hover, .tag-filter.active { background: var(--cyan); color: #06101f; border-color: var(--cyan); }
+  .tag-filter:hover, .tag-filter.active, .filter-btn:hover, .filter-btn.active { background: var(--cyan); color: #06101f; border-color: var(--cyan); }
 
-  /* ========== СЕТКА И КАРТОЧКИ ========== */
-  .grid {
-    max-width: 1200px; margin: 0 auto; display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px;
+  /* ========== СЕТКИ И КАРТОЧКИ ========== */
+  .grid, .doc-grid, .video-grid { 
+    max-width: 1200px; margin: 0 auto; display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   }
-  .card {
+  .news-grid { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+
+  .card, .doc-card, .video-card, .news-card {
     background: var(--card); border: 1px solid var(--border); border-radius: 16px;
-    padding: 22px; display: flex; flex-direction: column; position: relative; overflow: hidden;
+    padding: 22px; display: flex; flex-direction: column; position: relative;
     backdrop-filter: blur(14px); transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: cardAppear 0.5s ease backwards;
+    animation: cardAppear 0.5s ease backwards; overflow-wrap: break-word;
   }
   @keyframes cardAppear { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  .card:hover { background: var(--card-hover); border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.2); }
+  .card:hover, .doc-card:hover, .video-card:hover, .news-card:hover { background: var(--card-hover); border-color: var(--border-hover); transform: translateY(-3px); }
   
   .card.highlight { border-color: #fb7185; box-shadow: 0 0 20px rgba(251, 113, 133, 0.4); transform: scale(1.02); }
-
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-  .card-icon { width: 40px; height: 40px; object-fit: contain; }
-  .card-compare { width: 18px; height: 18px; cursor: pointer; accent-color: var(--cyan); }
+  .card-icon { width: 36px; height: 36px; object-fit: contain; }
+  .card-compare { width: 18px; height: 18px; cursor: pointer; accent-color: var(--cyan); flex-shrink: 0; margin-top: 4px; }
   
-  .card h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; }
+  .card h2, .doc-card h3, .video-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
   .tag {
     display: inline-block; font-size: 0.7rem; font-weight: 600; color: var(--cyan);
     background: rgba(56, 225, 255, 0.1); border: 1px solid rgba(56, 225, 255, 0.25);
     padding: 3px 9px; border-radius: 999px; margin-bottom: 12px; width: fit-content;
   }
   .reqs { font-size: 0.75rem; color: var(--muted); margin-bottom: 12px; display: flex; gap: 10px; }
-  .card p { color: var(--muted); font-size: 0.9rem; line-height: 1.5; flex-grow: 1; margin-bottom: 16px; }
+  .card p, .doc-card p, .video-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.5; flex-grow: 1; margin-bottom: 16px; }
   
-  /* Кнопки */
-  .btn-group { display: flex; flex-direction: column; gap: 8px; }
-  .btn {
-    display: block; text-align: center; text-decoration: none; background: var(--grad);
-    color: #06101f; font-weight: 700; font-size: 0.9rem; padding: 10px 16px;
-    border-radius: 10px; transition: opacity 0.2s; border: none; cursor: pointer;
+  .btn-group { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+  .btn, .btn-outline {
+    display: block; text-align: center; text-decoration: none; font-weight: 700; font-size: 0.9rem; padding: 10px 16px;
+    border-radius: 10px; transition: all 0.2s; border: none; cursor: pointer; font-family: inherit;
   }
+  .btn { background: var(--grad); color: #06101f; }
   .btn:hover { opacity: 0.9; }
-  .btn-outline {
-    background: transparent; color: var(--text); border: 1px solid var(--border);
-    font-weight: 600; font-size: 0.85rem; padding: 8px 16px; border-radius: 10px;
-    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;
-    transition: all 0.2s; font-family: inherit;
-  }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); font-weight: 600; font-size: 0.85rem; padding: 8px 16px; }
   .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); }
-  
-  /* Плавающая панель сравнения */
+
+  /* ========== ВИДЕО ========== */
+  .video-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+  .video-header h3 { margin-bottom: 0; font-size: 1.05rem; }
+  .lang-badge { font-size: 0.65rem; font-weight: 700; padding: 3px 7px; border-radius: 4px; text-transform: uppercase; flex-shrink: 0; margin-top: 4px; }
+  .lang-ru { color: #fb7185; background: rgba(251, 113, 133, 0.15); border: 1px solid rgba(251, 113, 133, 0.3); }
+  .lang-en { color: #38e1ff; background: rgba(56, 225, 255, 0.15); border: 1px solid rgba(56, 225, 255, 0.3); }
+
+  /* ========== СРАВНЕНИЕ И МОДАЛКИ ========== */
   .compare-bar {
     position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
     background: var(--card); border: 1px solid var(--cyan); border-radius: 20px;
@@ -181,51 +182,28 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(12px); transition: bottom 0.3s;
   }
   .compare-bar.show { bottom: 24px; }
-  .compare-bar span { font-size: 0.9rem; font-weight: 600; }
-  .compare-btn { background: var(--cyan); color: #06101f; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-
-  /* ========== МОДАЛКА СРАВНЕНИЯ ========== */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-    z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px;
-  }
+  .compare-bar span { font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
+  .compare-btn { background: var(--cyan); color: #06101f; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal-overlay.show { display: flex; }
-  .modal-content {
-    background: var(--bg-mid); border: 1px solid var(--border); border-radius: 20px;
-    width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; padding: 24px; position: relative;
-  }
-  .close-modal { position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--muted); font-size: 24px; cursor: pointer; }
+  .modal-content { background: var(--bg-mid); border: 1px solid var(--border); border-radius: 20px; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; padding: 24px; position: relative; }
+  .close-modal { position: absolute; top: 12px; right: 16px; background: transparent; border: none; color: var(--muted); font-size: 28px; cursor: pointer; line-height: 1; }
   .compare-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.9rem; }
   .compare-table th, .compare-table td { padding: 12px; border-bottom: 1px solid var(--border); text-align: left; }
   .compare-table th { color: var(--cyan); font-weight: 600; }
-  
-  /* ========== ОСТАЛЬНЫЕ ВКЛАДКИ (КРАТКО) ========== */
-  .doc-grid, .video-grid, .news-grid { max-width: 1200px; margin: 0 auto; display: grid; gap: 18px; }
-  .doc-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
-  .video-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-  .news-grid { display: flex; flex-direction: column; max-width: 1000px; }
-  
-  .doc-card, .video-card, .news-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px;
-    backdrop-filter: blur(14px); transition: all 0.2s;
-  }
-  .doc-card:hover, .video-card:hover, .news-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
-
-  /* Стили для видео и новостей */
-  .video-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-  .lang-badge { font-size: 0.65rem; font-weight: 700; padding: 3px 7px; border-radius: 4px; text-transform: uppercase; }
-  .lang-ru { color: #fb7185; background: rgba(251, 113, 133, 0.15); }
-  .lang-en { color: #38e1ff; background: rgba(56, 225, 255, 0.15); }
-  .filter-btn { padding: 7px 16px; border-radius: 999px; font-size: 0.82rem; font-weight: 600; color: var(--muted); background: transparent; border: 1px solid var(--border); cursor: pointer; }
-  .filter-btn.active { color: #06101f; background: var(--cyan); border-color: var(--cyan); }
 
   footer { text-align: center; color: var(--muted); margin-top: 60px; font-size: 0.82rem; }
   footer .wm { font-family: 'JetBrains Mono', monospace; color: var(--cyan); font-weight: 600; }
 
   @media (max-width: 480px) {
-    .top-bar { top: auto; bottom: 20px; right: 20px; flex-direction: column-reverse; }
-    header { padding-top: 20px; }
-    .tab-btn { min-width: 70px; font-size: 0.75rem; padding: 10px 4px; }
+    body { padding-top: 70px; } /* Увеличиваем отступ для мобилок */
+    .top-bar { top: 12px; right: 12px; }
+    .watermark { font-size: 9px; padding: 4px 8px; }
+    .theme-toggle { width: 28px; height: 28px; font-size: 14px; }
+    .tab-btn { min-width: 70px; font-size: 0.75rem; padding: 8px 4px; }
+    .search-row { flex-direction: column; }
+    .btn-random { padding: 10px; justify-content: center; }
   }
 </style>
 </head>
@@ -250,11 +228,9 @@
 
   <!-- ВКЛАДКА: ДИСТРИБУТИВЫ -->
   <section id="tab-distros" class="tab-content active">
-    
-    <!-- Панель управления -->
     <div class="controls">
       <div class="search-row">
-        <input type="text" id="searchInput" class="search-input" placeholder="Поиск дистрибутива или тега...">
+        <input type="text" id="searchInput" class="search-input" placeholder="Поиск дистрибутива...">
         <button class="btn-random" id="randomBtn">🎲 Рандом</button>
       </div>
       <div class="filter-tags" id="filterTags">
@@ -262,35 +238,72 @@
         <button class="tag-filter" data-filter="newbie">Для новичков</button>
         <button class="tag-filter" data-filter="old-pc">Для старых ПК</button>
         <button class="tag-filter" data-filter="source">Из исходников</button>
-        <button class="tag-filter" data-filter="bsd">BSD системы</button>
+        <button class="tag-filter" data-filter="bsd">BSD</button>
       </div>
     </div>
-
-    <main class="grid" id="distroGrid">
-      <!-- Карточки генерируются JS для удобства, но данные хранятся тут -->
-    </main>
+    <main class="grid" id="distroGrid"></main>
   </section>
 
-  <!-- ВКЛАДКА: ДОКУМЕНТАЦИЯ (Сокращено для примера, но стили сохранены) -->
+  <!-- ВКЛАДКА: ДОКУМЕНТАЦИЯ (Восстановлено полностью) -->
   <section id="tab-docs" class="tab-content">
     <div class="doc-grid">
       <article class="doc-card">
         <h3>Arch Linux</h3>
         <span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span>
-        <p>Установка вручную с live-среды. Разметка дисков, pacstrap, chroot и настройка загрузчика.</p>
-        <a class="btn-outline" href="https://wiki.archlinux.org/title/Installation_guide" target="_blank">Открыть гайд</a>
+        <p>Установка вручную с live-среды. Разметка дисков, pacstrap, chroot и настройка загрузчика. Официальное руководство Arch Wiki.</p>
+        <div class="btn-group">
+          <a class="btn-outline" href="https://wiki.archlinux.org/title/Installation_guide" target="_blank">Открыть гайд</a>
+        </div>
       </article>
+
       <article class="doc-card">
         <h3>Gentoo Linux</h3>
         <span class="tag" style="color:#fb7185; border-color:#fb7185;">Экстремально</span>
-        <p>Сборка системы из исходников, настройка ядра и Portage. Официальный Gentoo Handbook.</p>
-        <a class="btn-outline" href="https://wiki.gentoo.org/wiki/Handbook:Main_Page" target="_blank">Открыть гайд</a>
+        <p>Сборка системы из исходников, настройка ядра и Portage. Официальный Gentoo Handbook — пошаговое руководство по установке.</p>
+        <div class="btn-group">
+          <a class="btn-outline" href="https://wiki.gentoo.org/wiki/Handbook:Main_Page" target="_blank">Открыть гайд</a>
+        </div>
       </article>
-      <!-- Можно добавить остальные -->
+
+      <article class="doc-card">
+        <h3>KISS Linux</h3>
+        <span class="tag" style="color:#fb7185; border-color:#fb7185;">Экстремально</span>
+        <p>Установка из chroot с использованием live-среды другого дистрибутива. Официальное руководство по установке KISS.</p>
+        <div class="btn-group">
+          <a class="btn-outline" href="https://kisslinux.github.io/install" target="_blank">Открыть гайд</a>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <h3>GNU Guix System</h3>
+        <span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span>
+        <p>Декларативная установка через конфигурационный файл. Официальная документация и руководство по установке.</p>
+        <div class="btn-group">
+          <a class="btn-outline" href="https://guix.gnu.org/manual/en/html_node/System-Installation.html" target="_blank">Открыть гайд</a>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <h3>Void Linux</h3>
+        <span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span>
+        <p>Установка с live-образа или через chroot. Официальная документация по установке и настройке XBPS.</p>
+        <div class="btn-group">
+          <a class="btn-outline" href="https://docs.voidlinux.org/installation/index.html" target="_blank">Открыть гайд</a>
+        </div>
+      </article>
+
+      <article class="doc-card">
+        <h3>FreeBSD</h3>
+        <span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span>
+        <p>Установка через bsdinstall и ручная настройка. Официальное руководство FreeBSD Handbook.</p>
+        <div class="btn-group">
+          <a class="btn-outline" href="https://docs.freebsd.org/en/books/handbook/bsdinstall/" target="_blank">Открыть гайд</a>
+        </div>
+      </article>
     </div>
   </section>
 
-  <!-- ВКЛАДКА: ВИДЕО -->
+  <!-- ВКЛАДКА: ВИДЕО (Восстановлено полностью) -->
   <section id="tab-videos" class="tab-content">
     <div class="filter-tags" style="justify-content:center; margin-bottom:20px;" id="videoFilters">
       <button class="filter-btn active" data-lang="all">Все видео</button>
@@ -298,23 +311,88 @@
       <button class="filter-btn" data-lang="en">🇬🇧 English</button>
     </div>
     <div class="video-grid" id="videoGrid">
-      <!-- Пример видео -->
-      <article class="video-card" data-lang="ru">
-        <div class="video-header">
-          <h3 style="font-size:1.05rem;">Как установить Arch Linux за 10 минут</h3>
-          <span class="lang-badge lang-ru">RU</span>
-        </div>
-        <p style="color:var(--muted); font-size:0.85rem; margin:10px 0;">Быстрый способ установки для новичков через archinstall.</p>
-        <a class="btn-outline" href="https://rutube.ru/video/82a81ddcad6eb1749a640f116eb5915f/" target="_blank">Смотреть</a>
-      </article>
+      
       <article class="video-card" data-lang="en">
         <div class="video-header">
-          <h3 style="font-size:1.05rem;">How To Install Arch Linux 2026</h3>
+          <h3>How To Install Arch Linux In 2026</h3>
           <span class="lang-badge lang-en">EN</span>
         </div>
-        <p style="color:var(--muted); font-size:0.85rem; margin:10px 0;">Пошаговая установка с настройкой BTRFS и KDE Plasma.</p>
-        <a class="btn-outline" href="https://www.youtube.com/watch?v=gGMnYBN_wGo" target="_blank">Смотреть</a>
+        <p>Пошаговая установка с archinstall. Настройка BTRFS, PipeWire, выбор загрузчика и установка KDE Plasma.</p>
+        <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=gGMnYBN_wGo" target="_blank">Смотреть</a></div>
       </article>
+
+      <article class="video-card" data-lang="ru">
+        <div class="video-header">
+          <h3>Как установить Arch Linux за 10 минут</h3>
+          <span class="lang-badge lang-ru">RU</span>
+        </div>
+        <p>Быстрый способ установки для новичков. Выбор окружения, разметка диска и базовые настройки через официальный скрипт.</p>
+        <div class="btn-group"><a class="btn-outline" href="https://rutube.ru/video/82a81ddcad6eb1749a640f116eb5915f/" target="_blank">Смотреть</a></div>
+      </article>
+
+      <article class="video-card" data-lang="ru">
+        <div class="video-header">
+          <h3>Установка и настройка Gentoo</h3>
+          <span class="lang-badge lang-ru">RU</span>
+        </div>
+        <p>Детальная установка по Handbook с разбором возникающих проблем и сборкой системы из исходников.</p>
+        <div class="btn-group"><a class="btn-outline" href="https://rutube.ru/plst/245922/" target="_blank">Смотреть плейлист</a></div>
+      </article>
+
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3>Installing Guix as a GNU/Linux System</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <p>Установка полной системы с графическим окружением, WiFi и объяснением декларативного подхода к конфигурации.</p>
+        <div class="btn-group"><a class="btn-outline" href="https://systemcrafters.net/craft-your-system-with-guix/full-system-install/" target="_blank">Смотреть</a></div>
+      </article>
+
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3>Void Install with ZFS 2025</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <p>Прохождение установки Void Linux с настройкой ZFS и загрузчика ZFSBootMenu. Продвинутый уровень.</p>
+        <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=mhw2OzKveZQ" target="_blank">Смотреть</a></div>
+      </article>
+
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3>Walkthrough of FreeBSD 15.0</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <p>Обзор установки FreeBSD 15.0: подготовка носителя, установщик bsdinstall, базовая настройка системы.</p>
+        <div class="btn-group"><a class="btn-outline" href="https://youtu.be/xR0zjPtix50" target="_blank">Смотреть</a></div>
+      </article>
+
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3>How to install Lubuntu 24.10</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <p>Простая установка лёгкой версии Ubuntu. Настройка LXQt, обзор минимальных требований и первых шагов.</p>
+        <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/playlist?list=PLP6cPNfnmd-r51k7X-JlRNW8dz6ALst5g" target="_blank">Смотреть</a></div>
+      </article>
+
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3>Installation video for antiX 22</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <p>Подробный разбор установки antiX с выбором системы инициализации и настройкой для старого железа.</p>
+        <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=6gW_MVl9A_8" target="_blank">Смотреть</a></div>
+      </article>
+
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3>Puppy Linux on a Retro PC</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <p>Установка Puppy Linux на старый компьютер. Демонстрация загрузки в оперативную память и работы без HDD.</p>
+        <div class="btn-group"><a class="btn-outline" href="https://www.vidlii.com/watch?v=3tFviLvF8Hq" target="_blank">Смотреть</a></div>
+      </article>
+
     </div>
   </section>
 
@@ -325,20 +403,14 @@
     </div>
   </section>
 
-  <!-- Модальное окно сравнения -->
   <div class="modal-overlay" id="compareModal">
     <div class="modal-content">
       <button class="close-modal" id="closeModal">×</button>
       <h2>Сравнение дистрибутивов</h2>
-      <div style="overflow-x:auto;">
-        <table class="compare-table" id="compareTable">
-          <!-- Заполняется JS -->
-        </table>
-      </div>
+      <div style="overflow-x:auto;"><table class="compare-table" id="compareTable"></table></div>
     </div>
   </div>
 
-  <!-- Плавающая панель сравнения -->
   <div class="compare-bar" id="compareBar">
     <span id="compareCount">Выбрано: 0</span>
     <button class="compare-btn" id="doCompareBtn">Сравнить</button>
@@ -377,7 +449,6 @@ function renderDistros() {
   const searchQuery = document.getElementById('searchInput').value.toLowerCase();
 
   distros.forEach((d, index) => {
-    // Фильтрация
     if (currentFilter !== 'all' && !d.tags.includes(currentFilter)) return;
     if (searchQuery && !d.name.toLowerCase().includes(searchQuery) && !d.tagsText.toLowerCase().includes(searchQuery)) return;
 
@@ -386,7 +457,6 @@ function renderDistros() {
     card.id = `card-${d.id}`;
     card.style.animationDelay = `${index * 0.05}s`;
 
-    // Иконка: если нет в базе, используем дефолтную
     const iconUrl = `https://cdn.simpleicons.org/${d.icon}/38e1ff`;
 
     card.innerHTML = `
@@ -409,16 +479,11 @@ function renderDistros() {
     grid.appendChild(card);
   });
 
-  // Обработчики для чекбоксов сравнения
   document.querySelectorAll('.card-compare').forEach(cb => {
     cb.addEventListener('change', (e) => {
       const id = e.target.dataset.id;
       if (e.target.checked) {
-        if (compareList.length >= 3) {
-          alert('Можно сравнивать максимум 3 дистрибутива');
-          e.target.checked = false;
-          return;
-        }
+        if (compareList.length >= 3) { alert('Максимум 3 дистрибутива'); e.target.checked = false; return; }
         compareList.push(id);
       } else {
         compareList = compareList.filter(item => item !== id);
@@ -427,7 +492,6 @@ function renderDistros() {
     });
   });
 
-  // Обработчики для копирования
   document.querySelectorAll('.copy-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       navigator.clipboard.writeText(btn.dataset.cmd).then(() => {
@@ -452,7 +516,6 @@ document.getElementById('filterTags').addEventListener('click', (e) => {
 
 // --- РАНДОМАЙЗЕР ---
 document.getElementById('randomBtn').addEventListener('click', () => {
-  // Сбрасываем фильтры, чтобы точно найти карточку
   document.getElementById('searchInput').value = '';
   currentFilter = 'all';
   document.querySelectorAll('.tag-filter').forEach(b => b.classList.remove('active'));
@@ -472,17 +535,12 @@ document.getElementById('randomBtn').addEventListener('click', () => {
 function updateCompareBar() {
   const bar = document.getElementById('compareBar');
   document.getElementById('compareCount').textContent = `Выбрано: ${compareList.length} / 3`;
-  if (compareList.length >= 2) {
-    bar.classList.add('show');
-  } else {
-    bar.classList.remove('show');
-  }
+  if (compareList.length >= 2) { bar.classList.add('show'); } else { bar.classList.remove('show'); }
 }
 
 document.getElementById('doCompareBtn').addEventListener('click', () => {
   const selectedDistros = distros.filter(d => compareList.includes(d.id));
   const table = document.getElementById('compareTable');
-  
   let html = '<tr><th>Параметр</th>';
   selectedDistros.forEach(d => html += `<th>${d.name}</th>`);
   html += '</tr>';
@@ -536,13 +594,12 @@ themeBtn.addEventListener('click', () => {
   }
 });
 
-// --- ЖИВЫЕ НОВОСТИ (RSS Phoronix через rss2json) ---
+// --- ЖИВЫЕ НОВОСТИ ---
 async function fetchNews() {
   const container = document.getElementById('newsContainer');
   try {
     const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.phoronix.com%2Frss.php');
     const data = await response.json();
-    
     if (data.status !== 'ok') throw new Error('API Error');
     
     container.innerHTML = '';
@@ -553,10 +610,10 @@ async function fetchNews() {
       
       container.innerHTML += `
         <article class="news-card">
-          <div class="news-date" style="font-family:'JetBrains Mono'; font-size:0.75rem; color:var(--cyan); background:rgba(56,225,255,0.1); padding:6px 10px; border-radius:8px; text-align:center; min-width:60px;">
+          <div style="font-family:'JetBrains Mono'; font-size:0.75rem; color:var(--cyan); background:rgba(56,225,255,0.1); padding:6px 10px; border-radius:8px; text-align:center; min-width:60px; flex-shrink:0;">
             ${day}<br>${month}
           </div>
-          <div class="news-body" style="flex:1;">
+          <div style="flex:1;">
             <h4 style="margin-bottom:5px;"><a href="${item.link}" target="_blank" style="color:var(--text); text-decoration:none;">${item.title}</a></h4>
             <p style="color:var(--muted); font-size:0.85rem; line-height:1.4;">${item.description.replace(/<[^>]*>?/gm, '').substring(0, 120)}...</p>
             <a href="${item.link}" target="_blank" style="color:var(--blue); font-size:0.75rem; font-weight:600; text-decoration:none; margin-top:5px; display:inline-block;">Читать на Phoronix →</a>
@@ -565,14 +622,7 @@ async function fetchNews() {
       `;
     });
   } catch (error) {
-    container.innerHTML = `
-      <div class="news-card">
-        <div class="news-body">
-          <h4>Не удалось загрузить живые новости</h4>
-          <p style="color:var(--muted); font-size:0.85rem;">Проверьте подключение к интернету или обновите страницу позже. API RSS временно недоступно.</p>
-        </div>
-      </div>
-    `;
+    container.innerHTML = `<div class="news-card"><div>Не удалось загрузить новости. Проверьте интернет.</div></div>`;
   }
 }
 
@@ -585,7 +635,7 @@ document.getElementById('videoFilters').addEventListener('click', (e) => {
     
     document.querySelectorAll('.video-card').forEach(card => {
       if (lang === 'all' || card.dataset.lang === lang) {
-        card.style.display = 'block';
+        card.style.display = 'flex';
       } else {
         card.style.display = 'none';
       }
