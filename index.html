@@ -20,23 +20,25 @@
   .dark-theme {
     --bg-deep: #060b18;
     --bg-mid: #0b1329;
-    --card: rgba(15, 27, 54, 0.65);
-    --card-hover: rgba(23, 42, 84, 0.8);
+    --card: rgba(15, 27, 54, 0.75);
+    --card-hover: rgba(23, 42, 84, 0.9);
     --border: rgba(64, 148, 255, 0.16);
     --border-hover: rgba(64, 195, 255, 0.55);
     --text: #eef4ff;
     --muted: #8ca3c7;
+    --nav-bg: rgba(11, 19, 41, 0.85);
   }
 
   .light-theme {
     --bg-deep: #f0f4f8;
     --bg-mid: #e2e8f0;
-    --card: rgba(255, 255, 255, 0.8);
-    --card-hover: rgba(255, 255, 255, 0.95);
+    --card: rgba(255, 255, 255, 0.85);
+    --card-hover: rgba(255, 255, 255, 1);
     --border: rgba(59, 130, 246, 0.2);
     --border-hover: rgba(59, 130, 246, 0.6);
     --text: #1e293b;
     --muted: #64748b;
+    --nav-bg: rgba(255, 255, 255, 0.9);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,12 +49,13 @@
     background-attachment: fixed;
     color: var(--text);
     min-height: 100vh;
-    padding: 80px 16px 100px; /* Большой отступ сверху и снизу, чтобы ничего не налезало */
+    /* Большой отступ снизу, чтобы контент не прятался за нижней панелью */
+    padding: 80px 16px 120px; 
     transition: background 0.3s, color 0.3s;
-    overflow-wrap: break-word; /* Защита от наложения длинного текста */
+    overflow-wrap: break-word;
   }
 
-  /* ========== ШАПКА И ТЕРМИНАЛ ========== */
+  /* ========== ВЕРХНЯЯ ПАНЕЛЬ (ТЕМА И ВОДЯНОЙ ЗНАК) ========== */
   .top-bar {
     position: fixed; top: 16px; right: 16px; z-index: 100;
     display: flex; gap: 8px; align-items: center;
@@ -60,18 +63,19 @@
   .watermark {
     font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
     letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--cyan); background: var(--card);
+    color: var(--cyan); background: var(--nav-bg);
     border: 1px solid var(--border); padding: 6px 12px; border-radius: 999px;
     backdrop-filter: blur(12px); opacity: 0.85;
   }
   .theme-toggle {
-    background: var(--card); border: 1px solid var(--border); border-radius: 50%;
+    background: var(--nav-bg); border: 1px solid var(--border); border-radius: 50%;
     width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
     cursor: pointer; font-size: 16px; backdrop-filter: blur(12px);
     transition: all 0.2s; color: var(--text); flex-shrink: 0;
   }
   .theme-toggle:hover { border-color: var(--border-hover); transform: scale(1.1); }
 
+  /* ========== ЗАГОЛОВОК ========== */
   header { text-align: center; margin-bottom: 30px; }
   h1 {
     font-family: 'JetBrains Mono', monospace; font-size: clamp(1.6rem, 5vw, 2.8rem);
@@ -83,20 +87,28 @@
   @keyframes blink { 50% { opacity: 0; } }
   header p { color: var(--muted); font-size: 0.95rem; }
 
-  /* ========== ВКЛАДКИ ========== */
-  .tabs {
-    display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 24px;
-    padding: 6px; background: var(--card); border: 1px solid var(--border);
-    border-radius: 14px; max-width: 920px; margin-left: auto; margin-right: auto;
-    backdrop-filter: blur(12px);
+  /* ========== НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ (ВКЛАДКИ) ========== */
+  .bottom-nav {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    z-index: 100; width: calc(100% - 32px); max-width: 600px;
+    background: var(--nav-bg); border: 1px solid var(--border);
+    border-radius: 50px; padding: 8px;
+    display: flex; justify-content: space-between; gap: 4px;
+    backdrop-filter: blur(16px); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   }
   .tab-btn {
-    flex: 1; min-width: 80px; padding: 10px 8px; font-family: inherit; font-size: 0.85rem;
+    flex: 1; padding: 12px 6px; font-family: inherit; font-size: 0.85rem;
     font-weight: 600; color: var(--muted); background: transparent; border: none;
-    border-radius: 10px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    border-radius: 40px; cursor: pointer; transition: all 0.2s ease;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
   }
+  .tab-btn .icon { font-size: 1.2rem; }
+  .tab-btn .text { font-size: 0.7rem; }
+  
   .tab-btn:hover { color: var(--text); background: rgba(56, 225, 255, 0.08); }
-  .tab-btn.active { color: #06101f; background: var(--grad); box-shadow: 0 4px 18px rgba(56, 225, 255, 0.3); }
+  .tab-btn.active { color: #06101f; background: var(--grad); box-shadow: 0 4px 15px rgba(56, 225, 255, 0.3); }
+
+  /* ========== КОНТЕНТ ВКЛАДОК ========== */
   .tab-content { display: none; animation: fadeIn 0.4s ease; }
   .tab-content.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -113,7 +125,7 @@
   .btn-random {
     background: var(--grad); color: #06101f; border: none; padding: 0 16px;
     border-radius: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-    display: flex; align-items: center; gap: 6px; font-size: 0.85rem; transition: transform 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.85rem; transition: transform 0.2s;
     white-space: nowrap;
   }
   .btn-random:active { transform: scale(0.95); }
@@ -176,12 +188,14 @@
 
   /* ========== СРАВНЕНИЕ И МОДАЛКИ ========== */
   .compare-bar {
-    position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
-    background: var(--card); border: 1px solid var(--cyan); border-radius: 20px;
-    padding: 12px 24px; display: flex; align-items: center; gap: 16px; z-index: 100;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(12px); transition: bottom 0.3s;
+    position: fixed; bottom: 95px; /* Подняли выше нижней навигации */
+    left: 50%; transform: translateX(-50%);
+    background: var(--nav-bg); border: 1px solid var(--cyan); border-radius: 20px;
+    padding: 12px 24px; display: flex; align-items: center; gap: 16px; z-index: 99;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(12px); transition: bottom 0.3s, opacity 0.3s;
+    opacity: 0; pointer-events: none;
   }
-  .compare-bar.show { bottom: 24px; }
+  .compare-bar.show { bottom: 100px; opacity: 1; pointer-events: auto; }
   .compare-bar span { font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
   .compare-btn { background: var(--cyan); color: #06101f; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; white-space: nowrap; }
   
@@ -197,13 +211,16 @@
   footer .wm { font-family: 'JetBrains Mono', monospace; color: var(--cyan); font-weight: 600; }
 
   @media (max-width: 480px) {
-    body { padding-top: 70px; } /* Увеличиваем отступ для мобилок */
-    .top-bar { top: 12px; right: 12px; }
+    body { padding-top: 60px; padding-bottom: 110px; }
+    .top-bar { top: 10px; right: 10px; }
     .watermark { font-size: 9px; padding: 4px 8px; }
     .theme-toggle { width: 28px; height: 28px; font-size: 14px; }
-    .tab-btn { min-width: 70px; font-size: 0.75rem; padding: 8px 4px; }
+    .bottom-nav { padding: 6px; width: calc(100% - 20px); bottom: 12px; }
+    .tab-btn { padding: 8px 2px; }
+    .tab-btn .icon { font-size: 1.1rem; }
+    .tab-btn .text { font-size: 0.6rem; }
     .search-row { flex-direction: column; }
-    .btn-random { padding: 10px; justify-content: center; }
+    .btn-random { padding: 10px; }
   }
 </style>
 </head>
@@ -218,13 +235,6 @@
     <h1>~/ <span>Linux_Hub</span><span class="cursor"></span></h1>
     <p>Твой терминал в мир открытых систем</p>
   </header>
-
-  <nav class="tabs" role="tablist">
-    <button class="tab-btn active" data-tab="distros">Дистрибутивы</button>
-    <button class="tab-btn" data-tab="docs">Документация</button>
-    <button class="tab-btn" data-tab="videos">Видео</button>
-    <button class="tab-btn" data-tab="news">Новости</button>
-  </nav>
 
   <!-- ВКЛАДКА: ДИСТРИБУТИВЫ -->
   <section id="tab-distros" class="tab-content active">
@@ -244,66 +254,54 @@
     <main class="grid" id="distroGrid"></main>
   </section>
 
-  <!-- ВКЛАДКА: ДОКУМЕНТАЦИЯ (Восстановлено полностью) -->
+  <!-- ВКЛАДКА: ДОКУМЕНТАЦИЯ -->
   <section id="tab-docs" class="tab-content">
     <div class="doc-grid">
       <article class="doc-card">
         <h3>Arch Linux</h3>
         <span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span>
         <p>Установка вручную с live-среды. Разметка дисков, pacstrap, chroot и настройка загрузчика. Официальное руководство Arch Wiki.</p>
-        <div class="btn-group">
-          <a class="btn-outline" href="https://wiki.archlinux.org/title/Installation_guide" target="_blank">Открыть гайд</a>
-        </div>
+        <div class="btn-group"><a class="btn-outline" href="https://wiki.archlinux.org/title/Installation_guide" target="_blank">Открыть гайд</a></div>
       </article>
 
       <article class="doc-card">
         <h3>Gentoo Linux</h3>
         <span class="tag" style="color:#fb7185; border-color:#fb7185;">Экстремально</span>
         <p>Сборка системы из исходников, настройка ядра и Portage. Официальный Gentoo Handbook — пошаговое руководство по установке.</p>
-        <div class="btn-group">
-          <a class="btn-outline" href="https://wiki.gentoo.org/wiki/Handbook:Main_Page" target="_blank">Открыть гайд</a>
-        </div>
+        <div class="btn-group"><a class="btn-outline" href="https://wiki.gentoo.org/wiki/Handbook:Main_Page" target="_blank">Открыть гайд</a></div>
       </article>
 
       <article class="doc-card">
         <h3>KISS Linux</h3>
         <span class="tag" style="color:#fb7185; border-color:#fb7185;">Экстремально</span>
         <p>Установка из chroot с использованием live-среды другого дистрибутива. Официальное руководство по установке KISS.</p>
-        <div class="btn-group">
-          <a class="btn-outline" href="https://kisslinux.github.io/install" target="_blank">Открыть гайд</a>
-        </div>
+        <div class="btn-group"><a class="btn-outline" href="https://kisslinux.github.io/install" target="_blank">Открыть гайд</a></div>
       </article>
 
       <article class="doc-card">
         <h3>GNU Guix System</h3>
         <span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span>
         <p>Декларативная установка через конфигурационный файл. Официальная документация и руководство по установке.</p>
-        <div class="btn-group">
-          <a class="btn-outline" href="https://guix.gnu.org/manual/en/html_node/System-Installation.html" target="_blank">Открыть гайд</a>
-        </div>
+        <div class="btn-group"><a class="btn-outline" href="https://guix.gnu.org/manual/en/html_node/System-Installation.html" target="_blank">Открыть гайд</a></div>
       </article>
 
       <article class="doc-card">
         <h3>Void Linux</h3>
         <span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span>
         <p>Установка с live-образа или через chroot. Официальная документация по установке и настройке XBPS.</p>
-        <div class="btn-group">
-          <a class="btn-outline" href="https://docs.voidlinux.org/installation/index.html" target="_blank">Открыть гайд</a>
-        </div>
+        <div class="btn-group"><a class="btn-outline" href="https://docs.voidlinux.org/installation/index.html" target="_blank">Открыть гайд</a></div>
       </article>
 
       <article class="doc-card">
         <h3>FreeBSD</h3>
         <span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span>
         <p>Установка через bsdinstall и ручная настройка. Официальное руководство FreeBSD Handbook.</p>
-        <div class="btn-group">
-          <a class="btn-outline" href="https://docs.freebsd.org/en/books/handbook/bsdinstall/" target="_blank">Открыть гайд</a>
-        </div>
+        <div class="btn-group"><a class="btn-outline" href="https://docs.freebsd.org/en/books/handbook/bsdinstall/" target="_blank">Открыть гайд</a></div>
       </article>
     </div>
   </section>
 
-  <!-- ВКЛАДКА: ВИДЕО (Восстановлено полностью) -->
+  <!-- ВКЛАДКА: ВИДЕО -->
   <section id="tab-videos" class="tab-content">
     <div class="filter-tags" style="justify-content:center; margin-bottom:20px;" id="videoFilters">
       <button class="filter-btn active" data-lang="all">Все видео</button>
@@ -313,82 +311,55 @@
     <div class="video-grid" id="videoGrid">
       
       <article class="video-card" data-lang="en">
-        <div class="video-header">
-          <h3>How To Install Arch Linux In 2026</h3>
-          <span class="lang-badge lang-en">EN</span>
-        </div>
+        <div class="video-header"><h3>How To Install Arch Linux In 2026</h3><span class="lang-badge lang-en">EN</span></div>
         <p>Пошаговая установка с archinstall. Настройка BTRFS, PipeWire, выбор загрузчика и установка KDE Plasma.</p>
         <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=gGMnYBN_wGo" target="_blank">Смотреть</a></div>
       </article>
 
       <article class="video-card" data-lang="ru">
-        <div class="video-header">
-          <h3>Как установить Arch Linux за 10 минут</h3>
-          <span class="lang-badge lang-ru">RU</span>
-        </div>
+        <div class="video-header"><h3>Как установить Arch Linux за 10 минут</h3><span class="lang-badge lang-ru">RU</span></div>
         <p>Быстрый способ установки для новичков. Выбор окружения, разметка диска и базовые настройки через официальный скрипт.</p>
         <div class="btn-group"><a class="btn-outline" href="https://rutube.ru/video/82a81ddcad6eb1749a640f116eb5915f/" target="_blank">Смотреть</a></div>
       </article>
 
       <article class="video-card" data-lang="ru">
-        <div class="video-header">
-          <h3>Установка и настройка Gentoo</h3>
-          <span class="lang-badge lang-ru">RU</span>
-        </div>
+        <div class="video-header"><h3>Установка и настройка Gentoo</h3><span class="lang-badge lang-ru">RU</span></div>
         <p>Детальная установка по Handbook с разбором возникающих проблем и сборкой системы из исходников.</p>
         <div class="btn-group"><a class="btn-outline" href="https://rutube.ru/plst/245922/" target="_blank">Смотреть плейлист</a></div>
       </article>
 
       <article class="video-card" data-lang="en">
-        <div class="video-header">
-          <h3>Installing Guix as a GNU/Linux System</h3>
-          <span class="lang-badge lang-en">EN</span>
-        </div>
+        <div class="video-header"><h3>Installing Guix as a GNU/Linux System</h3><span class="lang-badge lang-en">EN</span></div>
         <p>Установка полной системы с графическим окружением, WiFi и объяснением декларативного подхода к конфигурации.</p>
         <div class="btn-group"><a class="btn-outline" href="https://systemcrafters.net/craft-your-system-with-guix/full-system-install/" target="_blank">Смотреть</a></div>
       </article>
 
       <article class="video-card" data-lang="en">
-        <div class="video-header">
-          <h3>Void Install with ZFS 2025</h3>
-          <span class="lang-badge lang-en">EN</span>
-        </div>
+        <div class="video-header"><h3>Void Install with ZFS 2025</h3><span class="lang-badge lang-en">EN</span></div>
         <p>Прохождение установки Void Linux с настройкой ZFS и загрузчика ZFSBootMenu. Продвинутый уровень.</p>
         <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=mhw2OzKveZQ" target="_blank">Смотреть</a></div>
       </article>
 
       <article class="video-card" data-lang="en">
-        <div class="video-header">
-          <h3>Walkthrough of FreeBSD 15.0</h3>
-          <span class="lang-badge lang-en">EN</span>
-        </div>
+        <div class="video-header"><h3>Walkthrough of FreeBSD 15.0</h3><span class="lang-badge lang-en">EN</span></div>
         <p>Обзор установки FreeBSD 15.0: подготовка носителя, установщик bsdinstall, базовая настройка системы.</p>
         <div class="btn-group"><a class="btn-outline" href="https://youtu.be/xR0zjPtix50" target="_blank">Смотреть</a></div>
       </article>
 
       <article class="video-card" data-lang="en">
-        <div class="video-header">
-          <h3>How to install Lubuntu 24.10</h3>
-          <span class="lang-badge lang-en">EN</span>
-        </div>
+        <div class="video-header"><h3>How to install Lubuntu 24.10</h3><span class="lang-badge lang-en">EN</span></div>
         <p>Простая установка лёгкой версии Ubuntu. Настройка LXQt, обзор минимальных требований и первых шагов.</p>
         <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/playlist?list=PLP6cPNfnmd-r51k7X-JlRNW8dz6ALst5g" target="_blank">Смотреть</a></div>
       </article>
 
       <article class="video-card" data-lang="en">
-        <div class="video-header">
-          <h3>Installation video for antiX 22</h3>
-          <span class="lang-badge lang-en">EN</span>
-        </div>
+        <div class="video-header"><h3>Installation video for antiX 22</h3><span class="lang-badge lang-en">EN</span></div>
         <p>Подробный разбор установки antiX с выбором системы инициализации и настройкой для старого железа.</p>
         <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=6gW_MVl9A_8" target="_blank">Смотреть</a></div>
       </article>
 
       <article class="video-card" data-lang="en">
-        <div class="video-header">
-          <h3>Puppy Linux on a Retro PC</h3>
-          <span class="lang-badge lang-en">EN</span>
-        </div>
+        <div class="video-header"><h3>Puppy Linux on a Retro PC</h3><span class="lang-badge lang-en">EN</span></div>
         <p>Установка Puppy Linux на старый компьютер. Демонстрация загрузки в оперативную память и работы без HDD.</p>
         <div class="btn-group"><a class="btn-outline" href="https://www.vidlii.com/watch?v=3tFviLvF8Hq" target="_blank">Смотреть</a></div>
       </article>
@@ -415,6 +386,26 @@
     <span id="compareCount">Выбрано: 0</span>
     <button class="compare-btn" id="doCompareBtn">Сравнить</button>
   </div>
+
+  <!-- НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ -->
+  <nav class="bottom-nav" role="tablist">
+    <button class="tab-btn active" data-tab="distros">
+      <span class="icon">📦</span>
+      <span class="text">Дистрибутивы</span>
+    </button>
+    <button class="tab-btn" data-tab="docs">
+      <span class="icon">📖</span>
+      <span class="text">Документация</span>
+    </button>
+    <button class="tab-btn" data-tab="videos">
+      <span class="icon">▶️</span>
+      <span class="text">Видео</span>
+    </button>
+    <button class="tab-btn" data-tab="news">
+      <span class="icon">📰</span>
+      <span class="text">Новости</span>
+    </button>
+  </nav>
 
   <footer>
     <p>Все ссылки ведут на официальные ресурсы.</p>
@@ -576,6 +567,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Скролл наверх при смене вкладки
   });
 });
 
