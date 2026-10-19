@@ -38,11 +38,9 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Водяной знак */
   .watermark {
     position: fixed;
-    top: 18px;
-    right: 18px;
+    top: 18px; right: 18px;
     z-index: 50;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -73,7 +71,6 @@
   }
   header p { color: var(--muted); font-size: 0.98rem; }
 
-  /* Вкладки */
   .tabs {
     display: flex;
     justify-content: center;
@@ -84,14 +81,14 @@
     background: rgba(10, 20, 42, 0.6);
     border: 1px solid var(--border);
     border-radius: 14px;
-    max-width: 720px;
+    max-width: 920px;
     margin-left: auto;
     margin-right: auto;
     backdrop-filter: blur(12px);
   }
   .tab-btn {
     flex: 1;
-    min-width: 120px;
+    min-width: 100px;
     padding: 11px 14px;
     font-family: inherit;
     font-size: 0.88rem;
@@ -136,12 +133,9 @@
   }
   .card::before {
     content: '';
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0;
     background: linear-gradient(135deg, rgba(56, 225, 255, 0.08), transparent 40%);
-    opacity: 0;
-    transition: opacity 0.25s;
-    pointer-events: none;
+    opacity: 0; transition: opacity 0.25s; pointer-events: none;
   }
   .card:hover {
     background: var(--card-hover);
@@ -177,16 +171,13 @@
     padding: 10px 16px;
     border-radius: 10px;
     transition: filter 0.2s, transform 0.15s;
-    position: relative;
-    z-index: 1;
+    position: relative; z-index: 1;
   }
   .btn:hover { filter: brightness(1.12); }
   .btn:active { transform: scale(0.98); }
 
-  /* Документация */
   .doc-grid {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 18px;
@@ -196,62 +187,109 @@
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 24px;
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
     backdrop-filter: blur(14px);
     transition: border-color 0.2s;
   }
   .doc-card:hover { border-color: var(--border-hover); }
   .doc-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-  .doc-card .difficulty {
+  .difficulty {
     display: inline-block;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 6px;
-    margin-bottom: 12px;
-    width: fit-content;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 6px;
+    margin-bottom: 12px; width: fit-content;
   }
   .diff-extreme { color: #fb7185; background: rgba(251, 113, 133, 0.12); border: 1px solid rgba(251, 113, 133, 0.3); }
   .diff-hard { color: #fbbf24; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.25); }
   .diff-medium { color: #38e1ff; background: rgba(56, 225, 255, 0.1); border: 1px solid rgba(56, 225, 255, 0.25); }
   .doc-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.55; flex-grow: 1; margin-bottom: 18px; }
   .btn-secondary {
-    display: inline-block;
-    text-align: center;
-    text-decoration: none;
+    display: inline-block; text-align: center; text-decoration: none;
     background: rgba(56, 225, 255, 0.06);
     color: var(--cyan);
-    font-weight: 600;
-    font-size: 0.86rem;
-    padding: 9px 16px;
-    border-radius: 9px;
+    font-weight: 600; font-size: 0.86rem;
+    padding: 9px 16px; border-radius: 9px;
     border: 1px solid rgba(56, 225, 255, 0.25);
     transition: all 0.2s;
   }
-  .btn-secondary:hover {
-    background: rgba(56, 225, 255, 0.13);
-    border-color: var(--border-hover);
-  }
+  .btn-secondary:hover { background: rgba(56, 225, 255, 0.13); border-color: var(--border-hover); }
 
-  /* Новости */
+  /* Video section */
+  .video-filters {
+    display: flex; justify-content: center; gap: 8px;
+    margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 0.82rem; font-weight: 600;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--border);
+    cursor: pointer; transition: all 0.2s;
+    font-family: inherit;
+  }
+  .filter-btn:hover { color: var(--text); border-color: var(--border-hover); }
+  .filter-btn.active { color: #06101f; background: var(--cyan); border-color: var(--cyan); }
+
+  .video-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+  }
+  .video-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex; flex-direction: column;
+    backdrop-filter: blur(14px);
+    transition: all 0.2s;
+  }
+  .video-card:hover { border-color: var(--border-hover); background: var(--card-hover); }
+  .video-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .video-title { font-size: 1.05rem; font-weight: 700; line-height: 1.3; padding-right: 10px; }
+  .lang-badge {
+    font-size: 0.65rem; font-weight: 700;
+    padding: 3px 7px; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  .lang-ru { color: #fb7185; background: rgba(251, 113, 133, 0.15); }
+  .lang-en { color: #38e1ff; background: rgba(56, 225, 255, 0.15); }
+  
+  .video-meta { 
+    font-size: 0.8rem; color: var(--muted); 
+    margin-bottom: 14px; display: flex; align-items: center; gap: 6px;
+  }
+  .video-meta svg { width: 14px; height: 14px; fill: currentColor; }
+  
+  .video-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.5; flex-grow: 1; margin-bottom: 16px; }
+  .video-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
+    font-weight: 600; font-size: 0.85rem;
+    padding: 10px 16px; border-radius: 10px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .video-btn:hover { background: var(--grad); color: #06101f; border-color: transparent; }
+  .video-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
   .news-grid {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+    max-width: 1000px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: 14px;
   }
   .news-card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 20px 22px;
-    display: flex;
-    gap: 18px;
-    align-items: flex-start;
+    display: flex; gap: 18px; align-items: flex-start;
     backdrop-filter: blur(14px);
     transition: all 0.2s;
   }
@@ -259,50 +297,29 @@
   .news-date {
     flex-shrink: 0;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 600;
+    font-size: 0.72rem; font-weight: 600;
     color: var(--cyan);
     background: rgba(56, 225, 255, 0.07);
     border: 1px solid rgba(56, 225, 255, 0.18);
-    padding: 6px 9px;
-    border-radius: 8px;
-    text-align: center;
-    line-height: 1.25;
-    min-width: 58px;
+    padding: 6px 9px; border-radius: 8px;
+    text-align: center; line-height: 1.25; min-width: 58px;
   }
   .news-body h4 { font-size: 0.98rem; font-weight: 600; margin-bottom: 5px; line-height: 1.35; }
   .news-body h4 a { color: var(--text); text-decoration: none; transition: color 0.15s; }
   .news-body h4 a:hover { color: var(--cyan); }
   .news-body p { color: var(--muted); font-size: 0.84rem; line-height: 1.5; }
-  .news-source {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--blue);
-    text-decoration: none;
-  }
+  .news-source { display: inline-block; margin-top: 8px; font-size: 0.75rem; font-weight: 600; color: var(--blue); text-decoration: none; }
   .news-source:hover { text-decoration: underline; }
 
-  footer {
-    text-align: center;
-    color: var(--muted);
-    margin-top: 60px;
-    font-size: 0.82rem;
-    line-height: 1.7;
-  }
-  footer .wm {
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--cyan);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-  }
+  footer { text-align: center; color: var(--muted); margin-top: 60px; font-size: 0.82rem; line-height: 1.7; }
+  footer .wm { font-family: 'JetBrains Mono', monospace; color: var(--cyan); font-weight: 600; letter-spacing: 0.08em; }
 
   @media (max-width: 480px) {
     .news-card { flex-direction: column; gap: 10px; }
     .news-date { display: inline-block; width: fit-content; }
     .watermark { font-size: 9px; padding: 4px 9px; top: 12px; right: 12px; }
-    .tab-btn { min-width: 90px; font-size: 0.8rem; padding: 10px 8px; }
+    .tab-btn { min-width: 80px; font-size: 0.78rem; padding: 10px 6px; }
+    .video-header { flex-direction: column; gap: 6px; }
   }
 </style>
 </head>
@@ -312,13 +329,14 @@
 
   <header>
     <h1>Linux & BSD Hub</h1>
-    <p>Образы, руководства и новости мира открытых систем</p>
+    <p>Образы, документация, видео и новости открытых систем</p>
   </header>
 
   <!-- Вкладки -->
   <nav class="tabs" role="tablist">
     <button class="tab-btn active" data-tab="distros" role="tab">Дистрибутивы</button>
     <button class="tab-btn" data-tab="docs" role="tab">Документация</button>
+    <button class="tab-btn" data-tab="videos" role="tab">Видео</button>
     <button class="tab-btn" data-tab="news" role="tab">Новости</button>
   </nav>
 
@@ -500,6 +518,161 @@
     </div>
   </section>
 
+  <!-- ВКЛАДКА: ВИДЕО -->
+  <section id="tab-videos" class="tab-content">
+    <div class="video-filters">
+      <button class="filter-btn active" data-lang="all">Все видео</button>
+      <button class="filter-btn" data-lang="ru">🇷🇺 Русский</button>
+      <button class="filter-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+
+    <div class="video-grid" id="video-container">
+      <!-- Arch Linux EN -->
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3 class="video-title">How To Install Arch Linux In 2026 — Complete Guide</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <div class="video-meta">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <span>NCX Tech · 2026</span>
+        </div>
+        <p>Пошаговая установка с archinstall. Настройка BTRFS, PipeWire, выбор загрузчика и установка KDE Plasma.</p>
+        <a class="video-btn" href="https://www.youtube.com/watch?v=gGMnYBN_wGo" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Смотреть на YouTube
+        </a>
+      </article>
+
+      <!-- Arch Linux RU -->
+      <article class="video-card" data-lang="ru">
+        <div class="video-header">
+          <h3 class="video-title">Как установить Arch Linux за 10 минут с archinstall</h3>
+          <span class="lang-badge lang-ru">RU</span>
+        </div>
+        <div class="video-meta">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <span>Rutube · 2026</span>
+        </div>
+        <p>Быстрый способ установки для новичков. Выбор окружения, разметка диска и базовые настройки через официальный скрипт.</p>
+        <a class="video-btn" href="https://rutube.ru/video/82a81ddcad6eb1749a640f116eb5915f/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Смотреть на Rutube
+        </a>
+      </article>
+
+      <!-- Gentoo RU -->
+      <article class="video-card" data-lang="ru">
+        <div class="video-header">
+          <h3 class="video-title">Установка и настройка Gentoo Linux (Playlist)</h3>
+          <span class="lang-badge lang-ru">RU</span>
+        </div>
+        <div class="video-meta">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <span>Rutube · Плейлист</span>
+        </div>
+        <p>Детальная установка по Handbook с разбором возникающих проблем и сборкой системы из исходников.</p>
+        <a class="video-btn" href="https://rutube.ru/plst/245922/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Смотреть на Rutube
+        </a>
+      </article>
+
+      <!-- Guix EN -->
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3 class="video-title">Installing Guix as a Complete GNU/Linux System</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <div class="video-meta">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <span>System Crafters · 2024</span>
+        </div>
+        <p>Установка полной системы с графическим окружением, WiFi и объяснением декларативного подхода к конфигурации.</p>
+        <a class="video-btn" href="https://systemcrafters.net/craft-your-system-with-guix/full-system-install/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Смотреть видео
+        </a>
+      </article>
+
+      <!-- Void EN -->
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3 class="video-title">Void Install with ZFS 2025</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <div class="video-meta">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <span>YouTube · 2025</span>
+        </div>
+        <p>Прохождение установки Void Linux с настройкой ZFS и загрузчика ZFSBootMenu. Продвинутый уровень.</p>
+        <a class="video-btn" href="https://www.youtube.com/watch?v=mhw2OzKveZQ" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Смотреть на YouTube
+        </a>
+      </article>
+
+      <!-- FreeBSD EN -->
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3 class="video-title">A Community Walkthrough of FreeBSD 15.0-RELEASE</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <div class="video-meta">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <span>FreeBSD Foundation · 2025</span>
+        </div>
+        <p>Обзор установки FreeBSD 15.0: подготовка носителя, установщик bsdinstall, базовая настройка системы.</p>
+        <a class="video-btn" href="https://youtu.be/xR0zjPtix50" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Смотреть на YouTube
+        </a>
+      </article>
+
+      <!-- Lubuntu EN -->
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3 class="video-title">How to install Lubuntu 24.10</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <div class="video-meta">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <span>YouTube · 2024</span>
+        </div>
+        <p>Простая установка лёгкой версии Ubuntu. Настройка LXQt, обзор минимальных требований и первых шагов.</p>
+        <a class="video-btn" href="https://www.youtube.com/playlist?list=PLP6cPNfnmd-r51k7X-JlRNW8dz6ALst5g" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Смотреть на YouTube
+        </a>
+      </article>
+
+      <!-- antiX EN -->
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3 class="video-title">An excellent installation video for antiX 22</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <div class="video-meta">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <span>LinuxQuestions · YouTube</span>
+        </div>
+        <p>Подробный разбор установки antiX с выбором системы инициализации и настройкой для старого железа.</p>
+        <a class="video-btn" href="https://www.youtube.com/watch?v=6gW_MVl9A_8" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Смотреть на YouTube
+        </a>
+      </article>
+
+      <!-- Puppy Linux EN -->
+      <article class="video-card" data-lang="en">
+        <div class="video-header">
+          <h3 class="video-title">Puppy Linux on a Retro PC: Ultimate Revival</h3>
+          <span class="lang-badge lang-en">EN</span>
+        </div>
+        <div class="video-meta">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          <span>Vidlii · 2025</span>
+        </div>
+        <p>Установка Puppy Linux на старый компьютер. Демонстрация загрузки в оперативную память и работы без HDD.</p>
+        <a class="video-btn" href="https://www.vidlii.com/watch?v=3tFviLvF8Hq" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Смотреть видео
+        </a>
+      </article>
+    </div>
+  </section>
+
   <!-- ВКЛАДКА: НОВОСТИ -->
   <section id="tab-news" class="tab-content">
     <div class="news-grid">
@@ -557,6 +730,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Логика переключения вкладок
       const buttons = document.querySelectorAll('.tab-btn');
       const contents = document.querySelectorAll('.tab-content');
 
@@ -570,6 +744,27 @@
           btn.classList.add('active');
           const section = document.getElementById('tab-' + target);
           if (section) section.classList.add('active');
+        });
+      });
+
+      // Логика фильтрации видео по языку
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const videoCards = document.querySelectorAll('.video-card');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const lang = btn.dataset.lang;
+
+          videoCards.forEach(card => {
+            if (lang === 'all' || card.dataset.lang === lang) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          });
         });
       });
     });
