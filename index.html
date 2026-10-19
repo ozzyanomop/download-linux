@@ -9,7 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  /* ========== ПЕРЕМЕННЫЕ ТЕМ ========== */
+  /* СКРЫВАЕМ ЗНАЧОК NETLIFY */
+  iframe[src*="netlify"], #netlify-badge, a[href*="netlify.com"], div[id^="netlify"] { display: none !important; }
+
   :root {
     --cyan: #38e1ff;
     --blue: #3b82f6;
@@ -26,7 +28,7 @@
     --border-hover: rgba(64, 195, 255, 0.55);
     --text: #eef4ff;
     --muted: #8ca3c7;
-    --nav-bg: rgba(11, 19, 41, 0.85);
+    --nav-bg: rgba(11, 19, 41, 0.95);
   }
 
   .light-theme {
@@ -38,7 +40,7 @@
     --border-hover: rgba(59, 130, 246, 0.6);
     --text: #1e293b;
     --muted: #64748b;
-    --nav-bg: rgba(255, 255, 255, 0.9);
+    --nav-bg: rgba(255, 255, 255, 0.95);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,52 +51,40 @@
     background-attachment: fixed;
     color: var(--text);
     min-height: 100vh;
-    /* Большой отступ снизу, чтобы контент не прятался за нижней панелью */
-    padding: 80px 16px 120px; 
+    padding: 30px 16px 130px;
     transition: background 0.3s, color 0.3s;
     overflow-wrap: break-word;
   }
 
-  /* ========== ВЕРХНЯЯ ПАНЕЛЬ (ТЕМА И ВОДЯНОЙ ЗНАК) ========== */
-  .top-bar {
-    position: fixed; top: 16px; right: 16px; z-index: 100;
-    display: flex; gap: 8px; align-items: center;
-  }
-  .watermark {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--cyan); background: var(--nav-bg);
-    border: 1px solid var(--border); padding: 6px 12px; border-radius: 999px;
-    backdrop-filter: blur(12px); opacity: 0.85;
-  }
+  /* ========== ВЕРХНЯЯ ПАНЕЛЬ ========== */
+  .top-bar { position: fixed; top: 16px; right: 16px; z-index: 100; display: flex; gap: 8px; }
   .theme-toggle {
     background: var(--nav-bg); border: 1px solid var(--border); border-radius: 50%;
-    width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 16px; backdrop-filter: blur(12px);
-    transition: all 0.2s; color: var(--text); flex-shrink: 0;
+    width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px; backdrop-filter: blur(12px);
+    transition: all 0.2s; color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   }
   .theme-toggle:hover { border-color: var(--border-hover); transform: scale(1.1); }
 
   /* ========== ЗАГОЛОВОК ========== */
-  header { text-align: center; margin-bottom: 30px; }
+  header { text-align: center; margin-bottom: 30px; margin-top: 20px;}
   h1 {
     font-family: 'JetBrains Mono', monospace; font-size: clamp(1.6rem, 5vw, 2.8rem);
     font-weight: 600; letter-spacing: -1px; color: var(--text); margin-bottom: 10px;
-    line-height: 1.2;
   }
   h1 span { background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .cursor { display: inline-block; width: 10px; height: 1.1em; background: var(--cyan); vertical-align: bottom; animation: blink 1s step-end infinite; }
   @keyframes blink { 50% { opacity: 0; } }
   header p { color: var(--muted); font-size: 0.95rem; }
 
-  /* ========== НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ (ВКЛАДКИ) ========== */
+  /* ========== НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ ========== */
   .bottom-nav {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
     z-index: 100; width: calc(100% - 32px); max-width: 600px;
     background: var(--nav-bg); border: 1px solid var(--border);
     border-radius: 50px; padding: 8px;
     display: flex; justify-content: space-between; gap: 4px;
-    backdrop-filter: blur(16px); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(20px); box-shadow: 0 10px 40px rgba(0,0,0,0.5);
   }
   .tab-btn {
     flex: 1; padding: 12px 6px; font-family: inherit; font-size: 0.85rem;
@@ -104,7 +94,6 @@
   }
   .tab-btn .icon { font-size: 1.2rem; }
   .tab-btn .text { font-size: 0.7rem; }
-  
   .tab-btn:hover { color: var(--text); background: rgba(56, 225, 255, 0.08); }
   .tab-btn.active { color: #06101f; background: var(--grad); box-shadow: 0 4px 15px rgba(56, 225, 255, 0.3); }
 
@@ -115,20 +104,21 @@
 
   /* ========== ПАНЕЛЬ УПРАВЛЕНИЯ ========== */
   .controls { max-width: 1200px; margin: 0 auto 24px; display: flex; flex-direction: column; gap: 12px; }
-  .search-row { display: flex; gap: 10px; }
+  .search-row { display: flex; gap: 8px; }
   .search-input {
     flex: 1; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border);
     background: var(--card); color: var(--text); font-family: inherit; font-size: 0.9rem;
     outline: none; backdrop-filter: blur(12px); transition: border 0.2s;
   }
   .search-input:focus { border-color: var(--cyan); }
-  .btn-random {
-    background: var(--grad); color: #06101f; border: none; padding: 0 16px;
+  .btn-action {
+    background: var(--grad); color: #06101f; border: none; padding: 0 14px;
     border-radius: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
     display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.85rem; transition: transform 0.2s;
     white-space: nowrap;
   }
-  .btn-random:active { transform: scale(0.95); }
+  .btn-action:active { transform: scale(0.95); }
+  .btn-cheat { background: rgba(56, 225, 255, 0.1); color: var(--cyan); border: 1px solid var(--border); }
   
   .filter-tags { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
   .filter-tags::-webkit-scrollbar { display: none; }
@@ -179,6 +169,13 @@
   .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); font-weight: 600; font-size: 0.85rem; padding: 8px 16px; }
   .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); }
 
+  /* ========== ССЫЛКИ ========== */
+  .useful-links { max-width: 1200px; margin: 40px auto 0; padding: 20px; background: var(--card); border-radius: 16px; border: 1px solid var(--border); }
+  .useful-links h3 { font-size: 1rem; margin-bottom: 12px; color: var(--cyan); }
+  .links-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .links-grid a { color: var(--muted); text-decoration: none; font-size: 0.85rem; padding: 6px 12px; background: rgba(56,225,255,0.05); border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s; }
+  .links-grid a:hover { color: var(--text); border-color: var(--cyan); background: rgba(56,225,255,0.1); }
+
   /* ========== ВИДЕО ========== */
   .video-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
   .video-header h3 { margin-bottom: 0; font-size: 1.05rem; }
@@ -186,48 +183,36 @@
   .lang-ru { color: #fb7185; background: rgba(251, 113, 133, 0.15); border: 1px solid rgba(251, 113, 133, 0.3); }
   .lang-en { color: #38e1ff; background: rgba(56, 225, 255, 0.15); border: 1px solid rgba(56, 225, 255, 0.3); }
 
-  /* ========== СРАВНЕНИЕ И МОДАЛКИ ========== */
-  .compare-bar {
-    position: fixed; bottom: 95px; /* Подняли выше нижней навигации */
-    left: 50%; transform: translateX(-50%);
-    background: var(--nav-bg); border: 1px solid var(--cyan); border-radius: 20px;
-    padding: 12px 24px; display: flex; align-items: center; gap: 16px; z-index: 99;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(12px); transition: bottom 0.3s, opacity 0.3s;
-    opacity: 0; pointer-events: none;
-  }
-  .compare-bar.show { bottom: 100px; opacity: 1; pointer-events: auto; }
-  .compare-bar span { font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
-  .compare-btn { background: var(--cyan); color: #06101f; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; white-space: nowrap; }
-  
+  /* ========== МОДАЛКИ ========== */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal-overlay.show { display: flex; }
-  .modal-content { background: var(--bg-mid); border: 1px solid var(--border); border-radius: 20px; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; padding: 24px; position: relative; }
+  .modal-content { background: var(--bg-mid); border: 1px solid var(--border); border-radius: 20px; width: 100%; max-width: 800px; max-height: 85vh; overflow-y: auto; padding: 24px; position: relative; }
   .close-modal { position: absolute; top: 12px; right: 16px; background: transparent; border: none; color: var(--muted); font-size: 28px; cursor: pointer; line-height: 1; }
   .compare-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.9rem; }
   .compare-table th, .compare-table td { padding: 12px; border-bottom: 1px solid var(--border); text-align: left; }
   .compare-table th { color: var(--cyan); font-weight: 600; }
 
-  footer { text-align: center; color: var(--muted); margin-top: 60px; font-size: 0.82rem; }
+  .cheat-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .cheat-item code { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--cyan); background: rgba(56,225,255,0.1); padding: 4px 8px; border-radius: 6px; }
+  .copy-mini { background: transparent; border: none; color: var(--muted); cursor: pointer; font-size: 1.1rem; }
+
+  footer { text-align: center; color: var(--muted); margin-top: 40px; font-size: 0.82rem; }
   footer .wm { font-family: 'JetBrains Mono', monospace; color: var(--cyan); font-weight: 600; }
 
   @media (max-width: 480px) {
-    body { padding-top: 60px; padding-bottom: 110px; }
-    .top-bar { top: 10px; right: 10px; }
-    .watermark { font-size: 9px; padding: 4px 8px; }
-    .theme-toggle { width: 28px; height: 28px; font-size: 14px; }
-    .bottom-nav { padding: 6px; width: calc(100% - 20px); bottom: 12px; }
+    body { padding-top: 20px; padding-bottom: 120px; }
+    .bottom-nav { padding: 6px; width: calc(100% - 20px); bottom: 15px; }
     .tab-btn { padding: 8px 2px; }
     .tab-btn .icon { font-size: 1.1rem; }
     .tab-btn .text { font-size: 0.6rem; }
-    .search-row { flex-direction: column; }
-    .btn-random { padding: 10px; }
+    .search-row { flex-wrap: wrap; }
+    .search-input { min-width: 100%; }
   }
 </style>
 </head>
 <body class="dark-theme">
 
   <div class="top-bar">
-    <div class="watermark">made by ozzya</div>
     <button class="theme-toggle" id="themeBtn" title="Сменить тему">☀️</button>
   </div>
 
@@ -236,12 +221,12 @@
     <p>Твой терминал в мир открытых систем</p>
   </header>
 
-  <!-- ВКЛАДКА: ДИСТРИБУТИВЫ -->
   <section id="tab-distros" class="tab-content active">
     <div class="controls">
       <div class="search-row">
         <input type="text" id="searchInput" class="search-input" placeholder="Поиск дистрибутива...">
-        <button class="btn-random" id="randomBtn">🎲 Рандом</button>
+        <button class="btn-action" id="randomBtn">🎲</button>
+        <button class="btn-action btn-cheat" id="cheatBtn">📋 Шпаргалка</button>
       </div>
       <div class="filter-tags" id="filterTags">
         <button class="tag-filter active" data-filter="all">Все</button>
@@ -252,56 +237,38 @@
       </div>
     </div>
     <main class="grid" id="distroGrid"></main>
-  </section>
 
-  <!-- ВКЛАДКА: ДОКУМЕНТАЦИЯ -->
-  <section id="tab-docs" class="tab-content">
-    <div class="doc-grid">
-      <article class="doc-card">
-        <h3>Arch Linux</h3>
-        <span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span>
-        <p>Установка вручную с live-среды. Разметка дисков, pacstrap, chroot и настройка загрузчика. Официальное руководство Arch Wiki.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://wiki.archlinux.org/title/Installation_guide" target="_blank">Открыть гайд</a></div>
-      </article>
-
-      <article class="doc-card">
-        <h3>Gentoo Linux</h3>
-        <span class="tag" style="color:#fb7185; border-color:#fb7185;">Экстремально</span>
-        <p>Сборка системы из исходников, настройка ядра и Portage. Официальный Gentoo Handbook — пошаговое руководство по установке.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://wiki.gentoo.org/wiki/Handbook:Main_Page" target="_blank">Открыть гайд</a></div>
-      </article>
-
-      <article class="doc-card">
-        <h3>KISS Linux</h3>
-        <span class="tag" style="color:#fb7185; border-color:#fb7185;">Экстремально</span>
-        <p>Установка из chroot с использованием live-среды другого дистрибутива. Официальное руководство по установке KISS.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://kisslinux.github.io/install" target="_blank">Открыть гайд</a></div>
-      </article>
-
-      <article class="doc-card">
-        <h3>GNU Guix System</h3>
-        <span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span>
-        <p>Декларативная установка через конфигурационный файл. Официальная документация и руководство по установке.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://guix.gnu.org/manual/en/html_node/System-Installation.html" target="_blank">Открыть гайд</a></div>
-      </article>
-
-      <article class="doc-card">
-        <h3>Void Linux</h3>
-        <span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span>
-        <p>Установка с live-образа или через chroot. Официальная документация по установке и настройке XBPS.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://docs.voidlinux.org/installation/index.html" target="_blank">Открыть гайд</a></div>
-      </article>
-
-      <article class="doc-card">
-        <h3>FreeBSD</h3>
-        <span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span>
-        <p>Установка через bsdinstall и ручная настройка. Официальное руководство FreeBSD Handbook.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://docs.freebsd.org/en/books/handbook/bsdinstall/" target="_blank">Открыть гайд</a></div>
-      </article>
+    <div class="useful-links">
+      <h3>🌐 Полезные ресурсы</h3>
+      <div class="links-grid">
+        <a href="https://distrowatch.com/" target="_blank">DistroWatch</a>
+        <a href="https://www.phoronix.com/" target="_blank">Phoronix</a>
+        <a href="https://wiki.archlinux.org/" target="_blank">Arch Wiki</a>
+        <a href="https://www.reddit.com/r/linux/" target="_blank">Reddit r/linux</a>
+        <a href="https://www.opennet.ru/" target="_blank">OpenNET</a>
+      </div>
     </div>
   </section>
 
-  <!-- ВКЛАДКА: ВИДЕО -->
+  <!-- ДОКУМЕНТАЦИЯ (Включая новые) -->
+  <section id="tab-docs" class="tab-content">
+    <div class="doc-grid">
+      <article class="doc-card"><h3>Arch Linux</h3><span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span><p>Ручная установка, pacstrap, chroot. Официальное руководство Arch Wiki.</p><div class="btn-group"><a class="btn-outline" href="https://wiki.archlinux.org/title/Installation_guide" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>Gentoo</h3><span class="tag" style="color:#fb7185; border-color:#fb7185;">Экстремально</span><p>Сборка из исходников, настройка ядра и Portage. Gentoo Handbook.</p><div class="btn-group"><a class="btn-outline" href="https://wiki.gentoo.org/wiki/Handbook:Main_Page" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>KISS Linux</h3><span class="tag" style="color:#fb7185; border-color:#fb7185;">Экстремально</span><p>Установка из chroot. Минимализм и полный контроль.</p><div class="btn-group"><a class="btn-outline" href="https://kisslinux.github.io/install" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>GNU Guix</h3><span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span><p>Декларативная установка через конфигурационный файл.</p><div class="btn-group"><a class="btn-outline" href="https://guix.gnu.org/manual/en/html_node/System-Installation.html" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>Void Linux</h3><span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span><p>Установка с live-образа. Настройка XBPS и runit.</p><div class="btn-group"><a class="btn-outline" href="https://docs.voidlinux.org/installation/index.html" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>FreeBSD</h3><span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span><p>Установка через bsdinstall. FreeBSD Handbook.</p><div class="btn-group"><a class="btn-outline" href="https://docs.freebsd.org/en/books/handbook/bsdinstall/" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>NixOS</h3><span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span><p>Настройка через configuration.nix. Официальное руководство.</p><div class="btn-group"><a class="btn-outline" href="https://nixos.org/manual/nixos/stable/#sec-installation" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>Alpine Linux</h3><span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span><p>Установка через setup-alpine. Минимальные требования.</p><div class="btn-group"><a class="btn-outline" href="https://wiki.alpinelinux.org/wiki/Installation" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>Kali Linux</h3><span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span><p>Установка для пентеста. Официальная документация Kali Docs.</p><div class="btn-group"><a class="btn-outline" href="https://www.kali.org/docs/installation/" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>Tails</h3><span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span><p>Установка на USB. Анонимность и безопасность.</p><div class="btn-group"><a class="btn-outline" href="https://tails.net/install/index.en.html" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>EndeavourOS</h3><span class="tag" style="color:#38e1ff; border-color:#38e1ff;">Средняя сложность</span><p>Установка через Calamares. Arch-база с графическим инсталлятором.</p><div class="btn-group"><a class="btn-outline" href="https://discovery.endeavouros.com/installation/" target="_blank">Гайд</a></div></article>
+      <article class="doc-card"><h3>Slackware</h3><span class="tag" style="color:#fbbf24; border-color:#fbbf24;">Высокая сложность</span><p>Классическая установка. Slackware Book.</p><div class="btn-group"><a class="btn-outline" href="http://www.slackbook.org/html/installation-helper.html" target="_blank">Гайд</a></div></article>
+    </div>
+  </section>
+
+  <!-- ВИДЕО (Включая новые) -->
   <section id="tab-videos" class="tab-content">
     <div class="filter-tags" style="justify-content:center; margin-bottom:20px;" id="videoFilters">
       <button class="filter-btn active" data-lang="all">Все видео</button>
@@ -309,71 +276,39 @@
       <button class="filter-btn" data-lang="en">🇬🇧 English</button>
     </div>
     <div class="video-grid" id="videoGrid">
-      
-      <article class="video-card" data-lang="en">
-        <div class="video-header"><h3>How To Install Arch Linux In 2026</h3><span class="lang-badge lang-en">EN</span></div>
-        <p>Пошаговая установка с archinstall. Настройка BTRFS, PipeWire, выбор загрузчика и установка KDE Plasma.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=gGMnYBN_wGo" target="_blank">Смотреть</a></div>
-      </article>
-
-      <article class="video-card" data-lang="ru">
-        <div class="video-header"><h3>Как установить Arch Linux за 10 минут</h3><span class="lang-badge lang-ru">RU</span></div>
-        <p>Быстрый способ установки для новичков. Выбор окружения, разметка диска и базовые настройки через официальный скрипт.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://rutube.ru/video/82a81ddcad6eb1749a640f116eb5915f/" target="_blank">Смотреть</a></div>
-      </article>
-
-      <article class="video-card" data-lang="ru">
-        <div class="video-header"><h3>Установка и настройка Gentoo</h3><span class="lang-badge lang-ru">RU</span></div>
-        <p>Детальная установка по Handbook с разбором возникающих проблем и сборкой системы из исходников.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://rutube.ru/plst/245922/" target="_blank">Смотреть плейлист</a></div>
-      </article>
-
-      <article class="video-card" data-lang="en">
-        <div class="video-header"><h3>Installing Guix as a GNU/Linux System</h3><span class="lang-badge lang-en">EN</span></div>
-        <p>Установка полной системы с графическим окружением, WiFi и объяснением декларативного подхода к конфигурации.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://systemcrafters.net/craft-your-system-with-guix/full-system-install/" target="_blank">Смотреть</a></div>
-      </article>
-
-      <article class="video-card" data-lang="en">
-        <div class="video-header"><h3>Void Install with ZFS 2025</h3><span class="lang-badge lang-en">EN</span></div>
-        <p>Прохождение установки Void Linux с настройкой ZFS и загрузчика ZFSBootMenu. Продвинутый уровень.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=mhw2OzKveZQ" target="_blank">Смотреть</a></div>
-      </article>
-
-      <article class="video-card" data-lang="en">
-        <div class="video-header"><h3>Walkthrough of FreeBSD 15.0</h3><span class="lang-badge lang-en">EN</span></div>
-        <p>Обзор установки FreeBSD 15.0: подготовка носителя, установщик bsdinstall, базовая настройка системы.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://youtu.be/xR0zjPtix50" target="_blank">Смотреть</a></div>
-      </article>
-
-      <article class="video-card" data-lang="en">
-        <div class="video-header"><h3>How to install Lubuntu 24.10</h3><span class="lang-badge lang-en">EN</span></div>
-        <p>Простая установка лёгкой версии Ubuntu. Настройка LXQt, обзор минимальных требований и первых шагов.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/playlist?list=PLP6cPNfnmd-r51k7X-JlRNW8dz6ALst5g" target="_blank">Смотреть</a></div>
-      </article>
-
-      <article class="video-card" data-lang="en">
-        <div class="video-header"><h3>Installation video for antiX 22</h3><span class="lang-badge lang-en">EN</span></div>
-        <p>Подробный разбор установки antiX с выбором системы инициализации и настройкой для старого железа.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=6gW_MVl9A_8" target="_blank">Смотреть</a></div>
-      </article>
-
-      <article class="video-card" data-lang="en">
-        <div class="video-header"><h3>Puppy Linux on a Retro PC</h3><span class="lang-badge lang-en">EN</span></div>
-        <p>Установка Puppy Linux на старый компьютер. Демонстрация загрузки в оперативную память и работы без HDD.</p>
-        <div class="btn-group"><a class="btn-outline" href="https://www.vidlii.com/watch?v=3tFviLvF8Hq" target="_blank">Смотреть</a></div>
-      </article>
-
+      <!-- Arch -->
+      <article class="video-card" data-lang="ru"><div class="video-header"><h3>Как установить Arch Linux за 10 минут</h3><span class="lang-badge lang-ru">RU</span></div><p>Быстрый способ установки для новичков через archinstall.</p><div class="btn-group"><a class="btn-outline" href="https://rutube.ru/video/82a81ddcad6eb1749a640f116eb5915f/" target="_blank">Смотреть</a></div></article>
+      <article class="video-card" data-lang="en"><div class="video-header"><h3>How To Install Arch Linux 2026</h3><span class="lang-badge lang-en">EN</span></div><p>Настройка BTRFS, PipeWire и KDE Plasma.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=gGMnYBN_wGo" target="_blank">Смотреть</a></div></article>
+      <!-- Gentoo -->
+      <article class="video-card" data-lang="ru"><div class="video-header"><h3>Установка и настройка Gentoo</h3><span class="lang-badge lang-ru">RU</span></div><p>Детальная установка по Handbook со сборкой из исходников.</p><div class="btn-group"><a class="btn-outline" href="https://rutube.ru/plst/245922/" target="_blank">Смотреть</a></div></article>
+      <!-- Guix -->
+      <article class="video-card" data-lang="en"><div class="video-header"><h3>Installing Guix as a GNU/Linux System</h3><span class="lang-badge lang-en">EN</span></div><p>Установка с графическим окружением и WiFi.</p><div class="btn-group"><a class="btn-outline" href="https://systemcrafters.net/craft-your-system-with-guix/full-system-install/" target="_blank">Смотреть</a></div></article>
+      <!-- Void -->
+      <article class="video-card" data-lang="en"><div class="video-header"><h3>Void Install with ZFS 2025</h3><span class="lang-badge lang-en">EN</span></div><p>Настройка ZFS и загрузчика ZFSBootMenu.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=mhw2OzKveZQ" target="_blank">Смотреть</a></div></article>
+      <!-- FreeBSD -->
+      <article class="video-card" data-lang="en"><div class="video-header"><h3>Walkthrough of FreeBSD 15.0</h3><span class="lang-badge lang-en">EN</span></div><p>Установщик bsdinstall и базовая настройка.</p><div class="btn-group"><a class="btn-outline" href="https://youtu.be/xR0zjPtix50" target="_blank">Смотреть</a></div></article>
+      <!-- Debian -->
+      <article class="video-card" data-lang="ru"><div class="video-header"><h3>Установка Debian 12</h3><span class="lang-badge lang-ru">RU</span></div><p>Классическая установка стабильной системы.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=U_4D8V8Zq8U" target="_blank">Смотреть</a></div></article>
+      <!-- NixOS -->
+      <article class="video-card" data-lang="en"><div class="video-header"><h3>NixOS Installation Guide</h3><span class="lang-badge lang-en">EN</span></div><p>Декларативная настройка системы через configuration.nix.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=Z8o8Jj6Vj6Q" target="_blank">Смотреть</a></div></article>
+      <!-- Alpine -->
+      <article class="video-card" data-lang="en"><div class="video-header"><h3>Alpine Linux Installation</h3><span class="lang-badge lang-en">EN</span></div><p>Установка ультралёгкой системы через setup-alpine.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=5oFj9X0h5pE" target="_blank">Смотреть</a></div></article>
+      <!-- Kali -->
+      <article class="video-card" data-lang="ru"><div class="video-header"><h3>Установка Kali Linux</h3><span class="lang-badge lang-ru">RU</span></div><p>Настройка системы для тестирования на проникновение.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=8fKkFk5Lq9k" target="_blank">Смотреть</a></div></article>
+      <!-- Tails -->
+      <article class="video-card" data-lang="en"><div class="video-header"><h3>How to install Tails</h3><span class="lang-badge lang-en">EN</span></div><p>Запись на USB и настройка анонимной системы.</p><div class="btn-group"><a class="btn-outline" href="https://tails.net/install/index.en.html" target="_blank">Смотреть</a></div></article>
+      <!-- EndeavourOS -->
+      <article class="video-card" data-lang="en"><div class="video-header"><h3>EndeavourOS Install</h3><span class="lang-badge lang-en">EN</span></div><p>Установка дружелюбного Arch через Calamares.</p><div class="btn-group"><a class="btn-outline" href="https://www.youtube.com/watch?v=2V3M7V4rP5c" target="_blank">Смотреть</a></div></article>
     </div>
   </section>
 
-  <!-- ВКЛАДКА: НОВОСТИ -->
   <section id="tab-news" class="tab-content">
     <div class="news-grid" id="newsContainer">
       <div style="text-align:center; color:var(--muted); padding:40px;">Загрузка свежих новостей...</div>
     </div>
   </section>
 
+  <!-- МОДАЛКИ -->
   <div class="modal-overlay" id="compareModal">
     <div class="modal-content">
       <button class="close-modal" id="closeModal">×</button>
@@ -382,29 +317,27 @@
     </div>
   </div>
 
-  <div class="compare-bar" id="compareBar">
-    <span id="compareCount">Выбрано: 0</span>
-    <button class="compare-btn" id="doCompareBtn">Сравнить</button>
+  <div class="modal-overlay" id="cheatModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="document.getElementById('cheatModal').classList.remove('show')">×</button>
+      <h2>📋 Шпаргалка базовых команд</h2>
+      <div class="cheat-item"><span>Обновить пакеты (Debian/Ubuntu)</span> <code>sudo apt update && sudo apt upgrade</code> <button class="copy-mini" onclick="copyText('sudo apt update && sudo apt upgrade')">📋</button></div>
+      <div class="cheat-item"><span>Обновить систему (Arch/CachyOS)</span> <code>sudo pacman -Syu</code> <button class="copy-mini" onclick="copyText('sudo pacman -Syu')">📋</button></div>
+      <div class="cheat-item"><span>Обновить пакеты (Fedora)</span> <code>sudo dnf upgrade --refresh</code> <button class="copy-mini" onclick="copyText('sudo dnf upgrade --refresh')">📋</button></div>
+      <div class="cheat-item"><span>Статус службы (Systemd)</span> <code>systemctl status service-name</code> <button class="copy-mini" onclick="copyText('systemctl status service-name')">📋</button></div>
+    </div>
   </div>
 
-  <!-- НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ -->
+  <div class="compare-bar" id="compareBar" style="position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:var(--nav-bg); border:1px solid var(--cyan); border-radius:20px; padding:12px 24px; display:none; align-items:center; gap:16px; z-index:99; box-shadow:0 10px 30px rgba(0,0,0,0.5); backdrop-filter:blur(12px);">
+    <span id="compareCount" style="font-size:0.9rem; font-weight:600; white-space:nowrap;">Выбрано: 0</span>
+    <button class="btn-action" id="doCompareBtn" style="padding:8px 16px; border-radius:8px;">Сравнить</button>
+  </div>
+
   <nav class="bottom-nav" role="tablist">
-    <button class="tab-btn active" data-tab="distros">
-      <span class="icon">📦</span>
-      <span class="text">Дистрибутивы</span>
-    </button>
-    <button class="tab-btn" data-tab="docs">
-      <span class="icon">📖</span>
-      <span class="text">Документация</span>
-    </button>
-    <button class="tab-btn" data-tab="videos">
-      <span class="icon">▶️</span>
-      <span class="text">Видео</span>
-    </button>
-    <button class="tab-btn" data-tab="news">
-      <span class="icon">📰</span>
-      <span class="text">Новости</span>
-    </button>
+    <button class="tab-btn active" data-tab="distros"><span class="icon">📦</span><span class="text">Дистро</span></button>
+    <button class="tab-btn" data-tab="docs"><span class="icon">📖</span><span class="text">Гайды</span></button>
+    <button class="tab-btn" data-tab="videos"><span class="icon">▶️</span><span class="text">Видео</span></button>
+    <button class="tab-btn" data-tab="news"><span class="icon">📰</span><span class="text">Новости</span></button>
   </nav>
 
   <footer>
@@ -413,25 +346,52 @@
   </footer>
 
 <script>
-// --- БАЗА ДАННЫХ ДИСТРИБУТИВОВ ---
+// БАЗА ДАННЫХ ДИСТРИБУТИВОВ (ПОЛНАЯ)
 const distros = [
-  { id: 'arch', name: 'Arch Linux', tags: ['source', 'rolling'], tagsText: 'Rolling release', desc: 'Минималистичный, собирается под себя. Arch Wiki — золотой стандарт.', reqs: { ram: '512 MB', disk: '2 GB' }, icon: 'archlinux', link: 'https://archlinux.org/download/', tor: 'https://archlinux.org/download/', cmd: 'pacstrap /mnt base linux linux-firmware' },
-  { id: 'ubuntu', name: 'Ubuntu', tags: ['newbie'], tagsText: 'LTS · Debian', desc: 'Самый популярный дистрибутив для новичков. LTS с поддержкой 5 лет.', reqs: { ram: '4 GB', disk: '25 GB' }, icon: 'ubuntu', link: 'https://ubuntu.com/download', cmd: 'sudo apt update && sudo apt upgrade' },
-  { id: 'mint', name: 'Linux Mint', tags: ['newbie', 'old-pc'], tagsText: 'User-friendly', desc: 'Идеален для перехода с Windows. Всё работает «из коробки».', reqs: { ram: '2 GB', disk: '20 GB' }, icon: 'linuxmint', link: 'https://linuxmint.com/download.php', cmd: 'sudo apt install mint-meta-cinnamon' },
-  { id: 'fedora', name: 'Fedora', tags: ['newbie'], tagsText: 'RPM · Cutting edge', desc: 'Актуальное ПО, интеграция с GNOME и Wayland. Свежие технологии.', reqs: { ram: '4 GB', disk: '20 GB' }, icon: 'fedora', link: 'https://fedoraproject.org/workstation/download', tor: 'https://torrents.fedoraproject.org/', cmd: 'sudo dnf upgrade --refresh' },
-  { id: 'gentoo', name: 'Gentoo', tags: ['source'], tagsText: 'Source-based', desc: 'Собирается из исходников с оптимизацией под железо. Гибкость.', reqs: { ram: '2 GB', disk: '20 GB' }, icon: 'gentoolinux', link: 'https://www.gentoo.org/downloads/', cmd: 'emerge --ask @world' },
-  { id: 'freebsd', name: 'FreeBSD', tags: ['bsd'], tagsText: 'BSD · Server', desc: 'Мощная BSD-система с ZFS и отличной сетевой производительностью.', reqs: { ram: '1 GB', disk: '10 GB' }, icon: 'freebsd', link: 'https://www.freebsd.org/where/', cmd: 'pkg update && pkg upgrade' },
-  { id: 'openbsd', name: 'OpenBSD', tags: ['bsd'], tagsText: 'BSD · Security', desc: 'Безопасность и чистота кода. Славится простотой и надёжностью.', reqs: { ram: '512 MB', disk: '2 GB' }, icon: 'openbsd', link: 'https://www.openbsd.org/faq/faq4.html#Download', cmd: 'pkg_add -u' },
-  { id: 'void', name: 'Void Linux', tags: ['source', 'old-pc'], tagsText: 'Rolling · Runit', desc: 'Независимый, XBPS и runit. Быстрый и лёгкий.', reqs: { ram: '512 MB', disk: '5 GB' }, icon: 'voidlinux', link: 'https://voidlinux.org/download/', cmd: 'xbps-install -Su' },
-  { id: 'guix', name: 'GNU Guix', tags: ['source'], tagsText: 'Declarative', desc: 'Декларативная конфигурация, функциональный менеджер пакетов.', reqs: { ram: '2 GB', disk: '15 GB' }, icon: 'gnu', link: 'https://guix.gnu.org/en/download/', cmd: 'guix pull && guix package -u' },
-  { id: 'antix', name: 'antiX', tags: ['old-pc'], tagsText: 'Systemd-free', desc: 'Лёгкий, без systemd. Отлично работает на очень старом железе.', reqs: { ram: '256 MB', disk: '5 GB' }, icon: 'linux', link: 'https://antixlinux.com/antix/download/', cmd: 'sudo apt update && sudo apt dist-upgrade' },
-  { id: 'lubuntu', name: 'Lubuntu', tags: ['newbie', 'old-pc'], tagsText: 'Ubuntu · LXQt', desc: 'Лёгкая редакция Ubuntu. Минимальные требования.', reqs: { ram: '1 GB', disk: '10 GB' }, icon: 'ubuntu', link: 'https://cdimage.ubuntu.com/lubuntu/releases/', cmd: 'sudo apt install lubuntu-desktop' },
-  { id: 'kiss', name: 'KISS Linux', tags: ['source'], tagsText: 'Minimal', desc: 'Максимально простой дистрибутив с минимумом зависимостей.', reqs: { ram: '256 MB', disk: '2 GB' }, icon: 'linux', link: 'https://github.com/kisslinux/repo/releases', cmd: 'kiss b base' },
-  { id: 'cachy', name: 'CachyOS', tags: ['newbie'], tagsText: 'Arch-based · Perf', desc: 'Оптимизированный Arch с патчами для игр и тяжёлых задач.', reqs: { ram: '4 GB', disk: '20 GB' }, icon: 'archlinux', link: 'https://cachyos.org/download/', cmd: 'sudo pacman -Syu' }
+  { id: 'arch', name: 'Arch Linux', tags: ['source', 'rolling'], tagsText: 'Rolling release', desc: 'Минималистичный, собирается под себя. Arch Wiki — золотой стандарт.', reqs: { ram: '512 MB', disk: '2 GB' }, icon: 'archlinux', link: 'https://archlinux.org/download/', cmd: 'pacstrap /mnt base linux linux-firmware' },
+  { id: 'ubuntu', name: 'Ubuntu', tags: ['newbie'], tagsText: 'LTS · Debian', desc: 'Самый популярный дистрибутив для новичков.', reqs: { ram: '4 GB', disk: '25 GB' }, icon: 'ubuntu', link: 'https://ubuntu.com/download', cmd: 'sudo apt update && sudo apt upgrade' },
+  { id: 'mint', name: 'Linux Mint', tags: ['newbie', 'old-pc'], tagsText: 'User-friendly', desc: 'Идеален для перехода с Windows.', reqs: { ram: '2 GB', disk: '20 GB' }, icon: 'linuxmint', link: 'https://linuxmint.com/download.php', cmd: 'sudo apt install mint-meta-cinnamon' },
+  { id: 'fedora', name: 'Fedora', tags: ['newbie'], tagsText: 'RPM · Cutting edge', desc: 'Актуальное ПО, интеграция с GNOME.', reqs: { ram: '4 GB', disk: '20 GB' }, icon: 'fedora', link: 'https://fedoraproject.org/workstation/download', cmd: 'sudo dnf upgrade --refresh' },
+  { id: 'gentoo', name: 'Gentoo', tags: ['source'], tagsText: 'Source-based', desc: 'Сборка из исходников с оптимизацией.', reqs: { ram: '2 GB', disk: '20 GB' }, icon: 'gentoolinux', link: 'https://www.gentoo.org/downloads/', cmd: 'emerge --ask @world' },
+  { id: 'freebsd', name: 'FreeBSD', tags: ['bsd'], tagsText: 'BSD · Server', desc: 'Мощная BSD-система с ZFS.', reqs: { ram: '1 GB', disk: '10 GB' }, icon: 'freebsd', link: 'https://www.freebsd.org/where/', cmd: 'pkg update && pkg upgrade' },
+  { id: 'openbsd', name: 'OpenBSD', tags: ['bsd'], tagsText: 'BSD · Security', desc: 'Безопасность и чистота кода.', reqs: { ram: '512 MB', disk: '2 GB' }, icon: 'openbsd', link: 'https://www.openbsd.org/faq/faq4.html#Download', cmd: 'pkg_add -u' },
+  { id: 'void', name: 'Void Linux', tags: ['source', 'old-pc'], tagsText: 'Rolling · Runit', desc: 'Независимый, XBPS и runit.', reqs: { ram: '512 MB', disk: '5 GB' }, icon: 'voidlinux', link: 'https://voidlinux.org/download/', cmd: 'xbps-install -Su' },
+  { id: 'guix', name: 'GNU Guix', tags: ['source'], tagsText: 'Declarative', desc: 'Декларативная конфигурация.', reqs: { ram: '2 GB', disk: '15 GB' }, icon: 'gnu', link: 'https://guix.gnu.org/en/download/', cmd: 'guix pull && guix package -u' },
+  { id: 'antix', name: 'antiX', tags: ['old-pc'], tagsText: 'Systemd-free', desc: 'Лёгкий, без systemd.', reqs: { ram: '256 MB', disk: '5 GB' }, icon: 'linux', link: 'https://antixlinux.com/antix/download/', cmd: 'sudo apt update && sudo apt dist-upgrade' },
+  { id: 'lubuntu', name: 'Lubuntu', tags: ['newbie', 'old-pc'], tagsText: 'Ubuntu · LXQt', desc: 'Лёгкая редакция Ubuntu.', reqs: { ram: '1 GB', disk: '10 GB' }, icon: 'ubuntu', link: 'https://cdimage.ubuntu.com/lubuntu/releases/', cmd: 'sudo apt install lubuntu-desktop' },
+  { id: 'kiss', name: 'KISS Linux', tags: ['source'], tagsText: 'Minimal', desc: 'Максимально простой дистрибутив.', reqs: { ram: '256 MB', disk: '2 GB' }, icon: 'linux', link: 'https://github.com/kisslinux/repo/releases', cmd: 'kiss b base' },
+  { id: 'cachy', name: 'CachyOS', tags: ['newbie'], tagsText: 'Arch-based · Perf', desc: 'Оптимизированный Arch для игр.', reqs: { ram: '4 GB', disk: '20 GB' }, icon: 'archlinux', link: 'https://cachyos.org/download/', cmd: 'sudo pacman -Syu' },
+  { id: 'debian', name: 'Debian', tags: ['newbie', 'old-pc'], tagsText: 'Universal · Stable', desc: 'Универсальная и невероятно стабильная.', reqs: { ram: '512 MB', disk: '10 GB' }, icon: 'debian', link: 'https://www.debian.org/download', cmd: 'sudo apt update && sudo apt upgrade' },
+  { id: 'nixos', name: 'NixOS', tags: ['source'], tagsText: 'Declarative · Pure', desc: 'Сборка из конфигурационного файла.', reqs: { ram: '1 GB', disk: '15 GB' }, icon: 'nixos', link: 'https://nixos.org/download', cmd: 'sudo nixos-rebuild switch' },
+  { id: 'alpine', name: 'Alpine Linux', tags: ['old-pc'], tagsText: 'Security · Tiny', desc: 'Ультралёгкий для контейнеров и серверов.', reqs: { ram: '128 MB', disk: '1 GB' }, icon: 'alpinelinux', link: 'https://alpinelinux.org/downloads/', cmd: 'apk update && apk upgrade' },
+  { id: 'kali', name: 'Kali Linux', tags: ['newbie'], tagsText: 'Security · Pentest', desc: 'Инструменты для тестирования безопасности.', reqs: { ram: '2 GB', disk: '20 GB' }, icon: 'kalilinux', link: 'https://www.kali.org/get-kali/', cmd: 'sudo apt update && sudo apt full-upgrade' },
+  { id: 'tails', name: 'Tails', tags: ['security'], tagsText: 'Privacy · Live OS', desc: 'Анонимная система, работающая с USB.', reqs: { ram: '2 GB', disk: '8 GB' }, icon: 'tails', link: 'https://tails.net/install/index.en.html', cmd: '' },
+  { id: 'endeavour', name: 'EndeavourOS', tags: ['newbie'], tagsText: 'Arch-based · Easy', desc: 'Arch с графическим инсталлятором.', reqs: { ram: '4 GB', disk: '20 GB' }, icon: 'archlinux', link: 'https://endeavouros.com/', cmd: 'sudo pacman -Syu' },
+  { id: 'slack', name: 'Slackware', tags: ['source'], tagsText: 'Classic · Stable', desc: 'Старейший дистрибутив, без лишних слоев.', reqs: { ram: '1 GB', disk: '10 GB' }, icon: 'slackware', link: 'http://www.slackware.com/getslack/', cmd: 'slackpkg update' }
 ];
 
 let compareList = [];
 let currentFilter = 'all';
+
+// --- ВОССТАНОВЛЕНИЕ НАСТРОЕК ИЗ LOCALSTORAGE ---
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') {
+  document.body.classList.replace('dark-theme', 'light-theme');
+  document.getElementById('themeBtn').textContent = '🌙';
+} else {
+  document.getElementById('themeBtn').textContent = '☀️';
+}
+
+const savedTab = localStorage.getItem('activeTab') || 'distros';
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  if(btn.dataset.tab === savedTab) {
+    btn.classList.add('active');
+    document.getElementById('tab-' + savedTab).classList.add('active');
+  } else {
+    btn.classList.remove('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.remove('active');
+  }
+});
 
 // --- РЕНДЕР КАРТОЧЕК ---
 function renderDistros() {
@@ -446,8 +406,7 @@ function renderDistros() {
     const card = document.createElement('article');
     card.className = 'card';
     card.id = `card-${d.id}`;
-    card.style.animationDelay = `${index * 0.05}s`;
-
+    card.style.animationDelay = `${index * 0.03}s`;
     const iconUrl = `https://cdn.simpleicons.org/${d.icon}/38e1ff`;
 
     card.innerHTML = `
@@ -457,14 +416,11 @@ function renderDistros() {
       </div>
       <h2>${d.name}</h2>
       <span class="tag">${d.tagsText}</span>
-      <div class="reqs">
-        <span>RAM: ${d.reqs.ram}</span> | <span>Disk: ${d.reqs.disk}</span>
-      </div>
+      <div class="reqs"><span>RAM: ${d.reqs.ram}</span> | <span>Disk: ${d.reqs.disk}</span></div>
       <p>${d.desc}</p>
       <div class="btn-group">
         <a href="${d.link}" target="_blank" class="btn">Скачать</a>
-        ${d.tor ? `<a href="${d.tor}" target="_blank" class="btn-outline">🧲 Torrent</a>` : ''}
-        ${d.cmd ? `<button class="btn-outline copy-btn" data-cmd="${d.cmd}">📋 Копировать команду</button>` : ''}
+        ${d.cmd ? `<button class="btn-outline copy-btn" data-cmd="${d.cmd}">📋 Команда</button>` : ''}
       </div>
     `;
     grid.appendChild(card);
@@ -474,11 +430,9 @@ function renderDistros() {
     cb.addEventListener('change', (e) => {
       const id = e.target.dataset.id;
       if (e.target.checked) {
-        if (compareList.length >= 3) { alert('Максимум 3 дистрибутива'); e.target.checked = false; return; }
+        if (compareList.length >= 3) { alert('Максимум 3'); e.target.checked = false; return; }
         compareList.push(id);
-      } else {
-        compareList = compareList.filter(item => item !== id);
-      }
+      } else { compareList = compareList.filter(item => item !== id); }
       updateCompareBar();
     });
   });
@@ -487,7 +441,7 @@ function renderDistros() {
     btn.addEventListener('click', () => {
       navigator.clipboard.writeText(btn.dataset.cmd).then(() => {
         const original = btn.innerHTML;
-        btn.innerHTML = '✅ Скопировано!';
+        btn.innerHTML = '✅ Готово!';
         setTimeout(() => btn.innerHTML = original, 2000);
       });
     });
@@ -512,10 +466,8 @@ document.getElementById('randomBtn').addEventListener('click', () => {
   document.querySelectorAll('.tag-filter').forEach(b => b.classList.remove('active'));
   document.querySelector('.tag-filter[data-filter="all"]').classList.add('active');
   renderDistros();
-
   const cards = document.querySelectorAll('.card');
   if (cards.length === 0) return;
-  
   cards.forEach(c => c.classList.remove('highlight'));
   const randomCard = cards[Math.floor(Math.random() * cards.length)];
   randomCard.classList.add('highlight');
@@ -526,7 +478,7 @@ document.getElementById('randomBtn').addEventListener('click', () => {
 function updateCompareBar() {
   const bar = document.getElementById('compareBar');
   document.getElementById('compareCount').textContent = `Выбрано: ${compareList.length} / 3`;
-  if (compareList.length >= 2) { bar.classList.add('show'); } else { bar.classList.remove('show'); }
+  if (compareList.length >= 2) { bar.style.display = 'flex'; } else { bar.style.display = 'none'; }
 }
 
 document.getElementById('doCompareBtn').addEventListener('click', () => {
@@ -535,14 +487,7 @@ document.getElementById('doCompareBtn').addEventListener('click', () => {
   let html = '<tr><th>Параметр</th>';
   selectedDistros.forEach(d => html += `<th>${d.name}</th>`);
   html += '</tr>';
-
-  const rows = [
-    { label: 'Теги', key: 'tagsText' },
-    { label: 'ОЗУ', key: 'reqs.ram' },
-    { label: 'Диск', key: 'reqs.disk' },
-    { label: 'Описание', key: 'desc' }
-  ];
-
+  const rows = [{ label: 'Теги', key: 'tagsText' }, { label: 'ОЗУ', key: 'reqs.ram' }, { label: 'Диск', key: 'reqs.disk' }, { label: 'Описание', key: 'desc' }];
   rows.forEach(row => {
     html += `<tr><td style="font-weight:600; color:var(--muted);">${row.label}</td>`;
     selectedDistros.forEach(d => {
@@ -551,64 +496,62 @@ document.getElementById('doCompareBtn').addEventListener('click', () => {
     });
     html += '</tr>';
   });
-
   table.innerHTML = html;
   document.getElementById('compareModal').classList.add('show');
 });
 
-document.getElementById('closeModal').addEventListener('click', () => {
-  document.getElementById('compareModal').classList.remove('show');
-});
+document.getElementById('closeModal').addEventListener('click', () => document.getElementById('compareModal').classList.remove('show'));
 
-// --- ЛОГИКА ВКЛАДОК ---
+// --- ВКЛАДКИ С СОХРАНЕНИЕМ ---
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Скролл наверх при смене вкладки
+    localStorage.setItem('activeTab', btn.dataset.tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });
 
-// --- ТЕМА (LIGHT/DARK) ---
+// --- ТЕМА С СОХРАНЕНИЕМ ---
 const themeBtn = document.getElementById('themeBtn');
-const body = document.body;
 themeBtn.addEventListener('click', () => {
-  if (body.classList.contains('dark-theme')) {
-    body.classList.replace('dark-theme', 'light-theme');
+  if (document.body.classList.contains('dark-theme')) {
+    document.body.classList.replace('dark-theme', 'light-theme');
     themeBtn.textContent = '🌙';
-    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f0f4f8');
+    localStorage.setItem('theme', 'light');
   } else {
-    body.classList.replace('light-theme', 'dark-theme');
+    document.body.classList.replace('light-theme', 'dark-theme');
     themeBtn.textContent = '☀️';
-    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#060b18');
+    localStorage.setItem('theme', 'dark');
   }
 });
 
-// --- ЖИВЫЕ НОВОСТИ ---
+// --- ШПАРГАЛКА ---
+document.getElementById('cheatBtn').addEventListener('click', () => document.getElementById('cheatModal').classList.add('show'));
+window.copyText = function(text) {
+  navigator.clipboard.writeText(text).then(() => alert('Скопировано!'));
+};
+
+// --- НОВОСТИ ---
 async function fetchNews() {
   const container = document.getElementById('newsContainer');
   try {
     const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.phoronix.com%2Frss.php');
     const data = await response.json();
     if (data.status !== 'ok') throw new Error('API Error');
-    
     container.innerHTML = '';
     data.items.slice(0, 5).forEach(item => {
       const date = new Date(item.pubDate);
-      const day = date.getDate();
-      const month = date.toLocaleString('ru', { month: 'short' });
-      
       container.innerHTML += `
         <article class="news-card">
           <div style="font-family:'JetBrains Mono'; font-size:0.75rem; color:var(--cyan); background:rgba(56,225,255,0.1); padding:6px 10px; border-radius:8px; text-align:center; min-width:60px; flex-shrink:0;">
-            ${day}<br>${month}
+            ${date.getDate()}<br>${date.toLocaleString('ru', { month: 'short' })}
           </div>
           <div style="flex:1;">
             <h4 style="margin-bottom:5px;"><a href="${item.link}" target="_blank" style="color:var(--text); text-decoration:none;">${item.title}</a></h4>
             <p style="color:var(--muted); font-size:0.85rem; line-height:1.4;">${item.description.replace(/<[^>]*>?/gm, '').substring(0, 120)}...</p>
-            <a href="${item.link}" target="_blank" style="color:var(--blue); font-size:0.75rem; font-weight:600; text-decoration:none; margin-top:5px; display:inline-block;">Читать на Phoronix →</a>
           </div>
         </article>
       `;
@@ -624,13 +567,9 @@ document.getElementById('videoFilters').addEventListener('click', (e) => {
     document.querySelectorAll('#videoFilters .filter-btn').forEach(b => b.classList.remove('active'));
     e.target.classList.add('active');
     const lang = e.target.dataset.lang;
-    
     document.querySelectorAll('.video-card').forEach(card => {
-      if (lang === 'all' || card.dataset.lang === lang) {
-        card.style.display = 'flex';
-      } else {
-        card.style.display = 'none';
-      }
+      if (lang === 'all' || card.dataset.lang === lang) card.style.display = 'flex';
+      else card.style.display = 'none';
     });
   }
 });
